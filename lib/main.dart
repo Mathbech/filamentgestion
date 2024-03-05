@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/template/index.dart';
+import 'template/login/widget/index.dart';
 
 void main() {
   runApp(const MainApp());

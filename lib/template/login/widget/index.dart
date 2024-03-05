@@ -1,8 +1,7 @@
-import 'package:flutter/material.dart';
+import 'dart:ui';
 
-String formatDate(DateTime d) {
-  return d.toString().substring(0, 19);
-}
+import 'package:flutter/material.dart';
+import './login_buton.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -14,7 +13,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,9 +34,23 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Nombre de pas',
-              style: TextStyle(fontSize: 30),
+              'Login',
+              style: TextStyle(fontSize: 18),
             ),
+            TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Email',
+                hintStyle: TextStyle(color: Colors.red, fontSize: 20), // Ajoutez cette ligne
+              ),
+            ),
+            TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Password',
+              ),
+            ),
+            SubmitButtonInputElement(),
           ],
         ),
       ),
