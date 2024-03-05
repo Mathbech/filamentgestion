@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class SubmitButtonInputElement extends StatelessWidget { // Assurez-vous que SubmitButtonInputElement est un sous-type de Widget
+class SubmitButtonInputElement extends StatelessWidget { 
   // Si possible, déclarez le constructeur comme const
   const SubmitButtonInputElement({Key? key}) : super(key: key);
 
