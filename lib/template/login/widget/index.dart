@@ -19,35 +19,36 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-      ),
-      
-      body: Form(
+        // appBar: AppBar(
+        //   title: const Text('Login'),
+        // ),
+
+        body: Form(
       key: _logFormKey,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           TextFormField(
             controller: _emailController,
+            decoration: const InputDecoration(
+              hintText: 'Email',
+            ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter some text';
+                return 'Merci d\'entrer un email';
               }
               return null;
             },
           ),
           TextFormField(
             controller: _passwordController,
+            decoration: const InputDecoration(
+              hintText: 'Password',
+            ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                // return 'Please enter some text';
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Please enter some text'),
-                  ),
-                );
+                return 'Merci d\'entrer un mot de passe';
               }
               return null;
             },
@@ -55,12 +56,10 @@ class HomePageState extends State<HomePage> {
           SubmitButtonInputElement(
             email: _emailController.text,
             password: _passwordController.text,
+            formKey: _logFormKey,
           ),
-          
-
         ],
       ),
-    )
-    );
+    ));
   }
 }
