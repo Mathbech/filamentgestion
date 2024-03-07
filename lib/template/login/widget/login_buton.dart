@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 
-class SubmitButtonInputElement extends StatelessWidget { 
-  // Si possible, déclarez le constructeur comme const
-  const SubmitButtonInputElement({Key? key}) : super(key: key);
+class SubmitButtonInputElement extends StatelessWidget {
+  final String email;
+  final String password;
+
+  const SubmitButtonInputElement({super.key, required this.email, required this.password});
 
   @override
   Widget build(BuildContext context) {
-    // Implémentez la méthode build
     return ElevatedButton(
       onPressed: () {
-        // Navigator.pushNamed(context, '/home');
+        // Utilisez 'email' et 'password' ici
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Processing Data'),
           ),
         );
       },
-      child: const Text('Submit'),
+      child: const Text('Login'),
     );
   }
 }

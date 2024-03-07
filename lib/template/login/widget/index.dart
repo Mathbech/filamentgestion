@@ -2,56 +2,65 @@ import 'package:flutter/material.dart';
 import './login_buton.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   static const String routeName = '/';
 
   @override
-  State<StatefulWidget> createState() => _HomePageState();
+  HomePageState createState() {
+    return HomePageState();
+  }
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
+  final _logFormKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false, // Bloque le bouton de retour
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.blue,
-          title: const Text('Filament Gestion'),
-          automaticallyImplyLeading: true,
-        ),
-        body: const Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Text(
-                'Login',
-                style: TextStyle(fontSize: 18),
-              ),
-              SizedBox(height: 30),
-              TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Email',
-                  hintStyle: TextStyle(
-                      color: Colors.red, fontSize: 20), // Ajoutez cette ligne
-                ),
-              ),
-              SizedBox(height: 5),
-              TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
-                ),
-              ),
-              SizedBox(height: 20),
-              SubmitButtonInputElement(),
-            ],
-          ),
-        ),
+    
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Login'),
       ),
+      
+      body: Form(
+      key: _logFormKey,
+      child: Column(
+        children: <Widget>[
+          TextFormField(
+            controller: _emailController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+          ),
+          TextFormField(
+            controller: _passwordController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                // return 'Please enter some text';
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Please enter some text'),
+                  ),
+                );
+              }
+              return null;
+            },
+          ),
+          SubmitButtonInputElement(
+            email: _emailController.text,
+            password: _passwordController.text,
+          ),
+          
+
+        ],
+      ),
+    )
     );
   }
 }
