@@ -30,11 +30,11 @@ class SubmitButtonInputElement extends StatelessWidget {
   final GlobalKey<FormState> formKey;
 
   const SubmitButtonInputElement({
-    Key? key,
+    super.key,
     required this.email,
     required this.password,
     required this.formKey,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
