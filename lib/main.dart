@@ -1,6 +1,7 @@
 import 'package:filamentgestion/template/dashboard/index.dart';
 import 'package:flutter/material.dart';
 import 'template/login/widget/index.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'dart:io';
 
@@ -13,22 +14,36 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
-void main() {
+// void main() {
+//   HttpOverrides.global = new MyHttpOverrides();
+//   runApp(const MainApp());
+// }
+
+void main() async {
   HttpOverrides.global = new MyHttpOverrides();
-  runApp(const MainApp());
+  WidgetsFlutterBinding.ensureInitialized(); // Assurez-vous d'appeler cette méthode si vous utilisez `async` dans `main`
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String initialRoute = '/';
+  if (prefs.getString('token') != null) {
+    initialRoute = '/dashboard';
+  }
+  runApp(MainApp(initialRoute: initialRoute));
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  final String initialRoute;
+
+  const MainApp({Key? key, required this.initialRoute}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Template',
-      initialRoute: '/',
+
+      initialRoute: initialRoute,
       routes: {
         '/': (context) => const HomePage(),
-        '/home': (context) => const DashboardPage(),
+        '/dashboard': (context) => const DashboardPage(),
       },
     );
   }

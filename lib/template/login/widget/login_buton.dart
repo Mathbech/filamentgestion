@@ -46,7 +46,7 @@ class SubmitButton extends StatelessWidget {
         print(localStorage.getString('token'));
       }
 
-      Navigator.pushNamed(context, '/home');
+      Navigator.pushNamed(context, '/dashboard');
     }
   }
 
