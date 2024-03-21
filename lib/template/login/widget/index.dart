@@ -20,9 +20,9 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: AppBar(
-        //   title: const Text('Login'),
-        // ),
+        appBar: AppBar(
+          title: const Text('Connexion'),
+        ),
 
         body: Form(
       key: _logFormKey,
@@ -46,7 +46,7 @@ class HomePageState extends State<HomePage> {
             decoration: const InputDecoration(
               hintText: 'Password',
             ),
-              obscureText: true,
+            obscureText: true,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Merci d\'entrer un mot de passe';
@@ -54,9 +54,9 @@ class HomePageState extends State<HomePage> {
               return null;
             },
           ),
-          SubmitButtonInputElement(
-            email: _emailController.text,
-            password: _passwordController.text,
+          SubmitButton(
+            emailController: _emailController,
+            passwordController: _passwordController,
             formKey: _logFormKey,
           ),
         ],
