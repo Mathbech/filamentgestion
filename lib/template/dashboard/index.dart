@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../services/api.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -24,8 +23,9 @@ class DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Homepage'),
+          title: const Text('Dashboard'),
           backgroundColor: Colors.blue,
+          automaticallyImplyLeading: false,
         ),
         body: const Center(
           child: Text('Bienvenue  !'),
