@@ -46,6 +46,7 @@ class HomePageState extends State<HomePage> {
             decoration: const InputDecoration(
               hintText: 'Password',
             ),
+              obscureText: true,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Merci d\'entrer un mot de passe';
