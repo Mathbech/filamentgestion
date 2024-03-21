@@ -1,3 +1,4 @@
+import 'package:filamentgestion/template/dashboard/index.dart';
 import 'package:flutter/material.dart';
 import 'template/login/widget/index.dart';
 
@@ -27,6 +28,7 @@ class MainApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const HomePage(),
+        '/home': (context) => const DashboardPage(),
       },
     );
   }
