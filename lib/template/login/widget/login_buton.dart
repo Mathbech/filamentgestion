@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../../../services/api_log.dart';
+import '../../../services/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
@@ -28,7 +28,7 @@ class SubmitButton extends StatelessWidget {
       print(data);
     }
 
-    var res = await Api().login(data);
+    var res = await LoginApi().login(data);
     var body = json.decode(res.body);
     if (kDebugMode) {
       print(body);
