@@ -27,8 +27,7 @@ class Api {
 
   user(BuildContext context) async {
     print(token);
-    var fullUrl =
-        'https://filamentgestion.local:4443/api/users';
+    var fullUrl = 'https://filamentgestion.local:4443/api/users';
     Response response = await http.get(
       Uri.parse(fullUrl),
       headers: <String, String>{
