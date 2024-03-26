@@ -5,9 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 class SubmitButton extends StatelessWidget {
-  // final String email;
-  // final String password;
-  // final GlobalKey<FormState> formKey;
   final GlobalKey<FormState> formKey;
   final TextEditingController emailController;
   final TextEditingController passwordController;
@@ -24,9 +21,6 @@ class SubmitButton extends StatelessWidget {
       'email': emailController.text.toString(),
       'password': passwordController.text.toString(),
     };
-    if (kDebugMode) {
-      print(data);
-    }
 
     Api apiInstance = Api();
     var res = await apiInstance.login(data);
@@ -36,16 +30,16 @@ class SubmitButton extends StatelessWidget {
     }
 
     if (body['code'] == 401) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Invalid Credentials')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Invalid Credentials')
+        )
+      );
     }
 
     if (body['token'] != null) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.setString('token', body['token']);
-      if (kDebugMode) {
-        print(localStorage.getString('token'));
-      }
 
       Navigator.pushNamed(context, '/dashboard');
 
@@ -63,11 +57,7 @@ class SubmitButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {
         if (formKey.currentState!.validate()) {
-          // Si le formulaire est valide, affichez un message de succès.
           login(context);
-          // ScaffoldMessenger.of(context).showSnackBar(
-          //   const SnackBar(content: Text('Processing Data')),
-          // );
         }
       },
       child: const Text('Submit'),
