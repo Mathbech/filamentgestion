@@ -28,7 +28,8 @@ class SubmitButton extends StatelessWidget {
       print(data);
     }
 
-    var res = await LoginApi().login(data);
+    Api apiInstance = Api();
+    var res = await apiInstance.login(data);
     var body = json.decode(res.body);
     if (kDebugMode) {
       print(body);
@@ -47,6 +48,13 @@ class SubmitButton extends StatelessWidget {
       }
 
       Navigator.pushNamed(context, '/dashboard');
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Connexion réussie'),
+          duration: Duration(seconds: 5),
+        ),
+      );
     }
   }
 
