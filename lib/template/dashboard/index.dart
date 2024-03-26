@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../services/api.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -26,6 +27,15 @@ class DashboardPageState extends State<DashboardPage> {
           title: const Text('Dashboard'),
           backgroundColor: Colors.blue,
           automaticallyImplyLeading: false,
+          // méthode de logout
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () {
+                Logout(context);
+              },
+            ),
+          ],
         ),
         body: const Center(
           child: Text('Bienvenue  !'),

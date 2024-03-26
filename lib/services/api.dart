@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,5 +24,16 @@ class Api {
     );
 
     return response;
+  }
+}
+
+class Logout {
+  Logout(BuildContext context);
+
+  logout(BuildContext context) async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    localStorage.remove('token');
+    // ignore: use_build_context_synchronously
+    Navigator.pushNamed(context, '/login');
   }
 }
