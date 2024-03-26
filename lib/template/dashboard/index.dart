@@ -38,7 +38,7 @@ class DashboardPageState extends State<DashboardPage> {
           ],
         ),
         body: const Center(
-          child: Text('Bienvenue  !'),
+          child: Text('Bienvenue  (variable user) !'),
         )
       );
   }

@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import './login_buton.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   static const String routeName = '/';
 
   @override
-  HomePageState createState() {
-    return HomePageState();
+  LoginPageState createState() {
+    return LoginPageState();
   }
 }
 
-class HomePageState extends State<HomePage> {
+class LoginPageState extends State<LoginPage> {
   final _logFormKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
