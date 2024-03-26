@@ -13,12 +13,23 @@ class DashboardPage extends StatefulWidget {
 }
 
 class DashboardPageState extends State<DashboardPage> {
-
+  String username = '';
   @override
   void initState() {
     super.initState();
+    getUsername();
   }
 
+  Future<void> getUsername() async {
+    Api apiInstance = Api();
+    String? tempUsername = await apiInstance.user(context);
+    if (tempUsername != null) {
+      username = tempUsername;
+    } else {
+      print('La méthode user a retourné null');
+    }
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +43,15 @@ class DashboardPageState extends State<DashboardPage> {
             IconButton(
               icon: const Icon(Icons.logout),
               onPressed: () {
-                Logout(context);
+                Api apiInstance = Api();
+                apiInstance.logout(context);
               },
             ),
           ],
         ),
-        body: const Center(
-          child: Text('Bienvenue  (variable user) !'),
+        body: Center(
+          child: Text('Bienvenue ${username} !'),
         )
-      );
+    );
   }
 }

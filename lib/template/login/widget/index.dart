@@ -22,6 +22,7 @@ class LoginPageState extends State<LoginPage> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Connexion'),
+          automaticallyImplyLeading: false,
         ),
 
         body: Form(

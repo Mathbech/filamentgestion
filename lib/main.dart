@@ -14,14 +14,9 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
-// void main() {
-//   HttpOverrides.global = new MyHttpOverrides();
-//   runApp(const MainApp());
-// }
-
 void main() async {
   HttpOverrides.global = new MyHttpOverrides();
-  WidgetsFlutterBinding.ensureInitialized(); // Assurez-vous d'appeler cette méthode si vous utilisez `async` dans `main`
+  WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String initialRoute = '/';
   if (prefs.getString('token') != null) {
