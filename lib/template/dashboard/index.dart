@@ -46,6 +46,19 @@ class DashboardPageState extends State<DashboardPage> {
           // méthode de logout
           actions: <Widget>[
             IconButton(
+              icon: const Icon(Icons.sell_outlined),
+              onPressed: () {
+                Navigator.pushNamed(context, '/ventes');
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.storage),
+              onPressed: () {
+                Navigator.pushNamed(context, '/bobine');
+              },
+            ),
+            
+            IconButton(
               icon: const Icon(Icons.logout),
               onPressed: () {
                 Api apiInstance = Api();
@@ -57,13 +70,6 @@ class DashboardPageState extends State<DashboardPage> {
         body: Center(
           child: Text('Bienvenue ${username} !'),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/bobine');
-          },
-          child: const Icon(Icons.announcement),
-          backgroundColor: Colors.blue,
-        )
         );
   }
 }

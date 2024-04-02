@@ -86,6 +86,31 @@ class Api {
     return bobines;
   }
 
+
+  vente(BuildContext context) async {
+    var fullUrl = 'https://filamentgestion.local:4443/api/ventes';
+    Response response = await http.get(Uri.parse(fullUrl), headers: {
+      'accept': 'application/json',
+      HttpHeaders.authorizationHeader: await getToken(),
+    });
+
+    final ventes = json.decode(response.body);
+    if (kDebugMode) {
+      print(ventes);
+    }
+
+    if (response.statusCode == 401) {
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.remove('token');
+      if (kDebugMode) {
+        print('Token removed');
+      }
+      Navigator.pushNamed(context, '/');
+    }
+
+    return ventes;
+  }
+
   logout(context) async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     localStorage.clear();
