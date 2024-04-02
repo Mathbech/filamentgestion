@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
@@ -9,7 +10,6 @@ class Api {
   getToken() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var token = localStorage.getString('token');
-    print(token);
     return 'Bearer $token';
   }
 
@@ -39,7 +39,9 @@ class Api {
     if (response.statusCode == 401) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.remove('token');
-      print('Token removed');
+      if (kDebugMode){
+        print('Token removed');
+      }
       Navigator.pushNamed(context, '/');
     }
 
@@ -49,7 +51,10 @@ class Api {
         await prefs.setString('username', user['username']);
         return user['username'];
       } else {
-        print('La clé "username" n\'existe pas dans le corps de la réponse');
+        if(kDebugMode){
+          print('La clé "username" n\'existe pas dans le corps de la réponse');
+        }
+        return null;
       }
     }
   }
@@ -62,7 +67,7 @@ class Api {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Vous avez été déconnecté'),
-        duration: Duration(seconds: 2),
+        duration: Duration(seconds: 5),
       ),
     );
   }

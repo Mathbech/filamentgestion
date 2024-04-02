@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../services/api.dart';
 
@@ -27,7 +28,10 @@ class DashboardPageState extends State<DashboardPage> {
     if (Username != null) {
       username = Username;
     } else {
-      print('La méthode user a retourné null');
+      if (kDebugMode){
+        print('La méthode user a retourné null');
+      }
+      return null;
     }
     setState(() {});
   }
