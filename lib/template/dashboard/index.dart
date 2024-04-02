@@ -22,9 +22,10 @@ class DashboardPageState extends State<DashboardPage> {
 
   Future<void> getUsername() async {
     Api apiInstance = Api();
-    String? tempUsername = await apiInstance.user(context);
-    if (tempUsername != null) {
-      username = tempUsername;
+    String? Username = await apiInstance.user(context);
+    print(Username);
+    if (Username != null) {
+      username = Username;
     } else {
       print('La méthode user a retourné null');
     }
@@ -51,7 +52,6 @@ class DashboardPageState extends State<DashboardPage> {
         ),
         body: Center(
           child: Text('Bienvenue ${username} !'),
-        )
-    );
+        ));
   }
 }

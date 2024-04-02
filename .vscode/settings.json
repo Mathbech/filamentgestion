@@ -1,0 +1,7 @@
+{
+    "editor.formatOnSave": true,
+    "breadcrumbs.enabled": true,
+    "breadcrumbs.showStrings": true,
+    "breadcrumbs.showStructs": true,
+    "breadcrumbs.showVariables": true
+}
