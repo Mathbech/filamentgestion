@@ -35,6 +35,9 @@ class Api {
     });
 
     final users = json.decode(response.body);
+    if(kDebugMode){
+      print(users);
+    }
 
     if (response.statusCode == 401) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();

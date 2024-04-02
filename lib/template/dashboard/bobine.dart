@@ -63,6 +63,15 @@ class BobinePageState extends State<BobinePage> {
               ),
             ],
           ),
-        ));
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/dashboard');
+          },
+          child: const Icon(Icons.home),
+          backgroundColor: Colors.blue,
+        )
+        );
+              
   }
 }

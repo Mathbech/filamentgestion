@@ -61,7 +61,7 @@ class DashboardPageState extends State<DashboardPage> {
           onPressed: () {
             Navigator.pushNamed(context, '/bobine');
           },
-          child: const Icon(Icons.add),
+          child: const Icon(Icons.announcement),
           backgroundColor: Colors.blue,
         )
         );
