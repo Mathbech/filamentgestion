@@ -28,7 +28,7 @@ class DashboardPageState extends State<DashboardPage> {
     if (Username != null) {
       username = Username;
     } else {
-      if (kDebugMode){
+      if (kDebugMode) {
         print('La méthode user a retourné null');
       }
       return null;
@@ -56,6 +56,14 @@ class DashboardPageState extends State<DashboardPage> {
         ),
         body: Center(
           child: Text('Bienvenue ${username} !'),
-        ));
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/bobine');
+          },
+          child: const Icon(Icons.add),
+          backgroundColor: Colors.blue,
+        )
+        );
   }
 }

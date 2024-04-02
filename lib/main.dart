@@ -1,6 +1,7 @@
-import 'package:filamentgestion/template/dashboard/index.dart';
+import '/template/dashboard/index.dart';
 import 'package:flutter/material.dart';
 import 'template/login/widget/index.dart';
+import 'template/dashboard/bobine.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'dart:io';
@@ -37,6 +38,7 @@ class MainApp extends StatelessWidget {
       routes: {
         '/': (context) => const LoginPage(),
         '/dashboard': (context) => const DashboardPage(),
+        '/bobine': (context) => const BobinePage(),
       },
     );
   }
