@@ -38,27 +38,48 @@ class BobinePageState extends State<BobinePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Bobine'),
-          backgroundColor: Colors.blue,
-          automaticallyImplyLeading: false,
-          // méthode de logout
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.logout),
-              onPressed: () {
-                Api apiInstance = Api();
-                apiInstance.logout(context);
+      appBar: AppBar(
+        title: const Text('Liste de bobines'),
+        backgroundColor: Colors.blue,
+        automaticallyImplyLeading: false,
+        // méthode de logout
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              Api apiInstance = Api();
+              apiInstance.logout(context);
+            },
+          ),
+        ],
+      ),
+      body: FutureBuilder(
+        future: getBobines(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Text('Erreur: ${snapshot.error}');
+          } else {
+            return ListView.builder(
+              itemCount: bobines.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text('Bobine ${index + 1}'),
+                  subtitle: Text('Référence: ${bobines[index]}'),
+                );
               },
-            ),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/dashboard');
-          },
-          child: const Icon(Icons.home),
-          backgroundColor: Colors.blue,
-        ));
+            );
+          }
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/dashboard');
+        },
+        child: const Icon(Icons.home),
+        backgroundColor: Colors.blue,
+      ),
+    );
   }
 }
