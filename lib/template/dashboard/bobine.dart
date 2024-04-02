@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../services/api.dart';
 
@@ -13,9 +14,25 @@ class BobinePage extends StatefulWidget {
 }
 
 class BobinePageState extends State<BobinePage> {
+  List<String> bobines = [];
   @override
   void initState() {
     super.initState();
+    getBobines();
+  }
+
+  Future<void> getBobines() async {
+    Api apiInstance = Api();
+    List<dynamic>? tempBobines = await apiInstance.bobine(context);
+    if (tempBobines != null) {
+      bobines = tempBobines.map((bobine) => bobine.toString()).toList();
+      print(bobines);
+    } else {
+      if (kDebugMode) {
+        print('La méthode bobine a retourné null');
+      }
+      return null;
+    }
   }
 
   @override
@@ -36,42 +53,12 @@ class BobinePageState extends State<BobinePage> {
             ),
           ],
         ),
-        body: Center(
-          // liste des bobines
-          child: ListView(
-            children: <Widget>[
-              ListTile(
-                title: Text('Bobine 1'),
-                subtitle: Text('Référence: 123456'),
-                onTap: () {
-                  //Navigator.pushNamed(context, '/bobine/1');
-                },
-              ),
-              ListTile(
-                title: Text('Bobine 2'),
-                subtitle: Text('Référence: 123457'),
-                onTap: () {
-                  //Navigator.pushNamed(context, '/bobine/2');
-                },
-              ),
-              ListTile(
-                title: Text('Bobine 3'),
-                subtitle: Text('Référence: 123458'),
-                onTap: () {
-                  //Navigator.pushNamed(context, '/bobine/3');
-                },
-              ),
-            ],
-          ),
-        ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.pushNamed(context, '/dashboard');
           },
           child: const Icon(Icons.home),
           backgroundColor: Colors.blue,
-        )
-        );
-              
+        ));
   }
 }

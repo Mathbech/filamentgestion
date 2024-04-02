@@ -62,6 +62,30 @@ class Api {
     }
   }
 
+  bobine(BuildContext context) async {
+    var fullUrl = 'https://filamentgestion.local:4443/api/bobines';
+    Response response = await http.get(Uri.parse(fullUrl), headers: {
+      'accept': 'application/json',
+      HttpHeaders.authorizationHeader: await getToken(),
+    });
+
+    final bobines = json.decode(response.body);
+    if(kDebugMode){
+      print(bobines);
+    }
+
+    if (response.statusCode == 401) {
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.remove('token');
+      if (kDebugMode){
+        print('Token removed');
+      }
+      Navigator.pushNamed(context, '/');
+    }
+
+    return bobines;
+  }
+
   logout(context) async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     localStorage.clear();
