@@ -45,18 +45,17 @@ class BobinePageState extends State<BobinePage> {
         // méthode de logout
         actions: <Widget>[
           IconButton(
-              icon: const Icon(Icons.home),
-              onPressed: () {
-                Navigator.pushNamed(context, '/dashboard');
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.sell_outlined),
-              onPressed: () {
-                Navigator.pushNamed(context, '/ventes');
-              },
-            ),
-            
+            icon: const Icon(Icons.home),
+            onPressed: () {
+              Navigator.pushNamed(context, '/dashboard');
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.sell_outlined),
+            onPressed: () {
+              Navigator.pushNamed(context, '/ventes');
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () {
