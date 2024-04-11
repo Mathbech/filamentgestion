@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../services/api.dart';
+import '../widget/appbar.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -39,33 +40,9 @@ class DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dashboard'),
-        backgroundColor: Colors.blue,
-        automaticallyImplyLeading: false,
-        // méthode de logout
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.sell_outlined),
-            onPressed: () {
-              Navigator.pushNamed(context, '/ventes');
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.storage),
-            onPressed: () {
-              Navigator.pushNamed(context, '/bobine');
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              Api apiInstance = Api();
-              apiInstance.logout(context);
-            },
-          ),
-        ],
-      ),
+       appBar: CustomAppBar(title: 'Tableau de bord'),
+       drawer: CustomDrawer(),
+
       body: Center(
         child: Text('Bienvenue ${username} !'),
       ),

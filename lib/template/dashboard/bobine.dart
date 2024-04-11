@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../services/api.dart';
+import '../widget/appbar.dart';
 
 class BobinePage extends StatefulWidget {
   const BobinePage({super.key});
@@ -38,33 +39,10 @@ class BobinePageState extends State<BobinePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Liste de bobines'),
-        backgroundColor: Colors.blue,
-        automaticallyImplyLeading: false,
-        // méthode de logout
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.home),
-            onPressed: () {
-              Navigator.pushNamed(context, '/dashboard');
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.sell_outlined),
-            onPressed: () {
-              Navigator.pushNamed(context, '/ventes');
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              Api apiInstance = Api();
-              apiInstance.logout(context);
-            },
-          ),
-        ],
-      ),
+      appBar: CustomAppBar(title: 'Stocks'),
+      drawer: CustomDrawer(),
+
+
       body: FutureBuilder(
         future: getBobines(),
         builder: (context, snapshot) {

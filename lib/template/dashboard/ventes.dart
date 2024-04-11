@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../services/api.dart';
+import '../widget/appbar.dart';
 
 class VentePage extends StatefulWidget {
   const VentePage({super.key});
@@ -38,33 +39,10 @@ class VentePageState extends State<VentePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Liste des Ventes'),
-        backgroundColor: Colors.blue,
-        automaticallyImplyLeading: false,
-        // méthode de logout
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.home),
-            onPressed: () {
-              Navigator.pushNamed(context, '/dashboard');
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.storage),
-            onPressed: () {
-              Navigator.pushNamed(context, '/bobine');
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              Api apiInstance = Api();
-              apiInstance.logout(context);
-            },
-          ),
-        ],
-      ),
+      appBar: CustomAppBar(title: 'Ventes'),
+      drawer: CustomDrawer(),
+
+
       body: FutureBuilder(
         future: getVentes(),
         builder: (context, snapshot) {
