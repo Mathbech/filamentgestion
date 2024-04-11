@@ -35,68 +35,8 @@ class Api {
     });
 
     final users = json.decode(response.body);
-    if(kDebugMode){
-      print(users);
-    }
-
-    if (response.statusCode == 401) {
-      SharedPreferences localStorage = await SharedPreferences.getInstance();
-      localStorage.remove('token');
-      if (kDebugMode){
-        print('Token removed');
-      }
-      Navigator.pushNamed(context, '/');
-    }
-
-    for (var user in users) {
-      if (user.containsKey('username')) {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString('username', user['username']);
-        return user['username'];
-      } else {
-        if(kDebugMode){
-          print('La clé "username" n\'existe pas dans le corps de la réponse');
-        }
-        return null;
-      }
-    }
-  }
-
-  bobine(BuildContext context) async {
-    var fullUrl = 'https://filamentgestion.local:4443/api/bobines';
-    Response response = await http.get(Uri.parse(fullUrl), headers: {
-      'accept': 'application/json',
-      HttpHeaders.authorizationHeader: await getToken(),
-    });
-
-    final bobines = json.decode(response.body);
-    if(kDebugMode){
-      print(bobines);
-    }
-
-    if (response.statusCode == 401) {
-      SharedPreferences localStorage = await SharedPreferences.getInstance();
-      localStorage.remove('token');
-      if (kDebugMode){
-        print('Token removed');
-      }
-      Navigator.pushNamed(context, '/');
-    }
-
-    return bobines;
-  }
-
-
-  vente(BuildContext context) async {
-    var fullUrl = 'https://filamentgestion.local:4443/api/ventes';
-    Response response = await http.get(Uri.parse(fullUrl), headers: {
-      'accept': 'application/json',
-      HttpHeaders.authorizationHeader: await getToken(),
-    });
-
-    final ventes = json.decode(response.body);
     if (kDebugMode) {
-      print(ventes);
+      print(users);
     }
 
     if (response.statusCode == 401) {
@@ -106,6 +46,111 @@ class Api {
         print('Token removed');
       }
       Navigator.pushNamed(context, '/');
+    }
+
+    
+    for (var user in users) {
+      if (user.containsKey('username')) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('username', user['username']);
+        return user['username'];
+      } else {
+        if (kDebugMode) {
+          print('La clé "username" n\'existe pas dans le corps de la réponse');
+        }
+        return null;
+      }
+    }
+  }
+
+
+  bobine(BuildContext context) async {
+    var fullUrl = 'https://filamentgestion.local:4443/api/users';
+    Response response = await http.get(Uri.parse(fullUrl), headers: {
+      'accept': 'application/json',
+      HttpHeaders.authorizationHeader: await getToken(),
+    });
+
+    final users = json.decode(response.body);
+    if (kDebugMode) {
+      print(users);
+    }
+
+    if (response.statusCode == 401) {
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.remove('token');
+      if (kDebugMode) {
+        print('Token removed');
+      }
+      Navigator.pushNamed(context, '/');
+    }
+
+    List<String> bobines = [];
+    for (var user in users) {
+      if (user.containsKey('bobines')) {
+        for (var bobineId in user['bobines']) {
+          var bobineUrl = 'https://filamentgestion.local:4443$bobineId';
+          Response bobineResponse =
+              await http.get(Uri.parse(bobineUrl), headers: {
+            'accept': 'application/json',
+            HttpHeaders.authorizationHeader: await getToken(),
+          });
+          if (bobineResponse.statusCode == 200) {
+            var bobine = json.decode(bobineResponse.body);
+            bobines.add(bobine.toString());
+          }
+        }
+      }
+    }
+
+    if (kDebugMode) {
+      print('La liste des bobines est : $bobines');
+    }
+
+    return bobines;
+  }
+
+  vente(BuildContext context) async {
+    var fullUrl = 'https://filamentgestion.local:4443/api/users';
+    Response response = await http.get(Uri.parse(fullUrl), headers: {
+      'accept': 'application/json',
+      HttpHeaders.authorizationHeader: await getToken(),
+    });
+
+    final users = json.decode(response.body);
+    if (kDebugMode) {
+      print(users);
+    }
+
+    if (response.statusCode == 401) {
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.remove('token');
+      if (kDebugMode) {
+        print('Token removed');
+      }
+      Navigator.pushNamed(context, '/');
+    }
+
+    List<String> ventes = [];
+    for (var user in users) {
+      if (user.containsKey('ventes')) {
+        for (var ventesId in user['ventes']) {
+          var bobineUrl = 'https://filamentgestion.local:4443$ventesId';
+          Response bobineResponse =
+              await http.get(Uri.parse(bobineUrl), headers: {
+            'accept': 'application/json',
+            HttpHeaders.authorizationHeader: await getToken(),
+          });
+          if (bobineResponse.statusCode == 200) {
+            var bobine = json.decode(bobineResponse.body);
+            ventes.add(bobine.toString());
+          }
+        }
+      }
+    }
+
+    if (kDebugMode) {
+      print('La liste des bobines est : $ventes');
     }
 
     return ventes;
