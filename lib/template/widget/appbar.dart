@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
+import '../../services/api.dart';
 
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -11,6 +12,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: Text(title),
+      backgroundColor: const Color.fromARGB(255, 81, 148, 182),
       leading: Builder(
         builder: (BuildContext context) {
           return IconButton(
@@ -37,27 +39,41 @@ class CustomDrawer extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<PackageInfo> snapshot) {
         String version = snapshot.data?.version ?? 'Unknown';
         return Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
+          child: Stack(
             children: [
-              const DrawerHeader(
-                child: Text('Menu'),
+              ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  const DrawerHeader(
+                    child: Text('Menu'),
+                  ),
+                  ListTile(
+                      title: const Text('Stocks'),
+                      leading: Icon(Icons.store),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/bobine');
+                      }),
+                  ListTile(
+                      title: const Text('Ventes'),
+                      leading: Icon(Icons.shopping_cart),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/ventes');
+                      }),
+                  ListTile(
+                      title: const Text('Déconnexion'),
+                      leading: Icon(Icons.logout),
+                      onTap: () {
+                        Api apiInstance = Api();
+                        apiInstance.logout(context);
+                      }),
+                ],
               ),
-              ListTile(
-                  title: const Text('Stocks'),
-                  leading: Icon(Icons.store),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/bobine');
-                  }),
-              ListTile(
-                  title: const Text('Ventes'),
-                  leading: Icon(Icons.shopping_cart),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/ventes');
-                  }),
-              AboutListTile(
-                child: Text('Version'),
-                applicationVersion: version,
+              Positioned(
+                bottom: 0,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text('Version: $version'),
+                ),
               ),
             ],
           ),
