@@ -6,7 +6,7 @@ import '../widget/appbar.dart';
 class VentePage extends StatefulWidget {
   const VentePage({super.key});
 
-  static const String routeName = '/bobine';
+  static const String routeName = '/ventes';
 
   @override
   VentePageState createState() {
