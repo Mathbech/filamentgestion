@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'template/login/widget/index.dart';
 import 'template/dashboard/bobine.dart';
 import 'template/dashboard/ventes.dart';
+import 'template/dashboard/imprimantes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'dart:io';
@@ -41,6 +42,7 @@ class MainApp extends StatelessWidget {
         '/dashboard': (context) => const DashboardPage(),
         '/bobine': (context) => const BobinePage(),
         '/ventes': (context) => const VentePage(),
+        '/imprimante': (context) => const ImprimantePage(),
       },
     );
   }

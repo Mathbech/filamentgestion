@@ -163,6 +163,53 @@ class Api {
     return ventes;
   }
 
+
+  imprimante(BuildContext context) async {
+    var fullUrl = 'https://filamentgestion.local:4443/api/users';
+    Response response = await http.get(Uri.parse(fullUrl), headers: {
+      'accept': 'application/json',
+      HttpHeaders.authorizationHeader: await getToken(),
+    });
+
+    final users = json.decode(response.body);
+    if (kDebugMode) {
+      print(users);
+    }
+
+    if (response.statusCode == 401) {
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.remove('token');
+      if (kDebugMode) {
+        print('Token removed');
+      }
+      Navigator.pushNamed(context, '/');
+    }
+
+    List<String> imprimante = [];
+    for (var user in users) {
+      if (user.containsKey('imprimantes')) {
+        for (var imprimanteId in user['imprimantes']) {
+          var bobineUrl = 'https://filamentgestion.local:4443$imprimanteId';
+          Response bobineResponse =
+              await http.get(Uri.parse(bobineUrl), headers: {
+            'accept': 'application/json',
+            HttpHeaders.authorizationHeader: await getToken(),
+          });
+          if (bobineResponse.statusCode == 200) {
+            var bobine = json.decode(bobineResponse.body);
+            imprimante.add(bobine.toString());
+          }
+        }
+      }
+    }
+
+    if (kDebugMode) {
+      print('La liste des Imprimantes est : $imprimante');
+    }
+
+    return imprimante;
+  }
+
   logout(context) async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     localStorage.clear();
