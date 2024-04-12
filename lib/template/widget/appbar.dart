@@ -48,10 +48,22 @@ class CustomDrawer extends StatelessWidget {
                     child: Text('Menu'),
                   ),
                   ListTile(
+                      title: const Text('Accueil'),
+                      leading: Icon(Icons.home),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/dashboard');
+                      }),
+                  ListTile(
                       title: const Text('Stocks'),
                       leading: Icon(Icons.store),
                       onTap: () {
                         Navigator.pushNamed(context, '/bobine');
+                      }),
+                      ListTile(
+                      title: const Text('Imprimantes'),
+                      leading: Icon(Icons.print_rounded),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/imprimante');
                       }),
                   ListTile(
                       title: const Text('Ventes'),
