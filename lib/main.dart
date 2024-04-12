@@ -4,6 +4,7 @@ import 'template/login/widget/index.dart';
 import 'template/dashboard/bobine.dart';
 import 'template/dashboard/ventes.dart';
 import 'template/dashboard/imprimantes.dart';
+import 'template/dashboard/impressions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'dart:io';
@@ -43,6 +44,7 @@ class MainApp extends StatelessWidget {
         '/bobine': (context) => const BobinePage(),
         '/ventes': (context) => const VentePage(),
         '/imprimante': (context) => const ImprimantePage(),
+        '/impressions': (context) => const ImpressionsPage(),
       },
     );
   }

@@ -210,6 +210,47 @@ class Api {
     return imprimante;
   }
 
+  impressions(BuildContext context) async {
+    var fullUrl = 'https://filamentgestion.local:4443/api/users';
+    Response response = await http.get(Uri.parse(fullUrl), headers: {
+      'accept': 'application/json',
+      HttpHeaders.authorizationHeader: await getToken(),
+    });
+    final users = json.decode(response.body);
+    if (kDebugMode) {
+      print(users);
+    }
+    if (response.statusCode == 401) {
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.remove('token');
+      if (kDebugMode) {
+        print('Token removed');
+      }
+      Navigator.pushNamed(context, '/');
+    }
+    List<String> impressions = [];
+    for (var user in users) {
+      if (user.containsKey('impressions')) {
+        for (var impressionId in user['impressions']) {
+          var impressionUrl = 'https://filamentgestion.local:4443$impressionId';
+          Response impressionResponse =
+              await http.get(Uri.parse(impressionUrl), headers: {
+            'accept': 'application/json',
+            HttpHeaders.authorizationHeader: await getToken(),
+          });
+          if (impressionResponse.statusCode == 200) {
+            var impression = json.decode(impressionResponse.body);
+            impressions.add(impression.toString());
+          }
+        }
+      }
+    }
+    if (kDebugMode) {
+      print('La liste des impressions est : $impressions');
+    }
+    return impressions;
+  }
+
   logout(context) async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     localStorage.clear();

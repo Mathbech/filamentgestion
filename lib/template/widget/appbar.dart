@@ -63,8 +63,17 @@ class CustomDrawer extends StatelessWidget {
                       title: const Text('Imprimantes'),
                       leading: Icon(Icons.print_rounded),
                       onTap: () {
+                        Navigator.pop(context);
                         Navigator.pushNamed(context, '/imprimante');
                       }),
+                      ListTile(
+                    title: Text('Impressions'),
+                    leading: Icon(Icons.local_print_shop_outlined),
+                    onTap: () {
+                      Navigator.pop(context); // ferme le tiroir
+                      Navigator.pushNamed(context, '/impressions'); // navigue vers la nouvelle page
+                    },
+                  ),
                   ListTile(
                       title: const Text('Ventes'),
                       leading: Icon(Icons.shopping_cart),
