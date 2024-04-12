@@ -48,21 +48,28 @@ class Api {
       Navigator.pushNamed(context, '/');
     }
 
-    
-    for (var user in users) {
-      if (user.containsKey('username')) {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString('username', user['username']);
-        return user['username'];
-      } else {
-        if (kDebugMode) {
-          print('La clé "username" n\'existe pas dans le corps de la réponse');
+    if (users.isNotEmpty) {
+      for (var user in users) {
+        if (user.containsKey('username')) {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setString('username', user['username']);
+          return user['username'];
+        } else {
+          if (kDebugMode) {
+            print(
+                'La clé "username" n\'existe pas dans le corps de la réponse');
+          }
         }
-        return null;
       }
+    }else{
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.remove('token');
+      if (kDebugMode) {
+        print('Token removed');
+      }
+      Navigator.pushNamed(context, '/');
     }
   }
-
 
   bobine(BuildContext context) async {
     var fullUrl = 'https://filamentgestion.local:4443/api/users';
