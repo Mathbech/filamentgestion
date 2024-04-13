@@ -35,6 +35,7 @@ class LoginPageState extends State<LoginPage> {
             decoration: const InputDecoration(
               hintText: 'Email',
             ),
+            keyboardType: TextInputType.emailAddress,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Merci d\'entrer un email';
