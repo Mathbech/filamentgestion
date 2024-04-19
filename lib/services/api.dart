@@ -14,7 +14,7 @@ class Api {
   }
 
   login(data) async {
-    var fullUrl = 'https://filamentgestion.local:4443/auth';
+    var fullUrl = 'https://filamentgestion.local/auth';
 
     Response response = await http.post(
       Uri.parse(fullUrl),
@@ -28,7 +28,7 @@ class Api {
   }
 
   user(BuildContext context) async {
-    var fullUrl = 'https://filamentgestion.local:4443/api/users';
+    var fullUrl = 'https://filamentgestion.local/api/users';
     Response response = await http.get(Uri.parse(fullUrl), headers: {
       'accept': 'application/json',
       HttpHeaders.authorizationHeader: await getToken(),
@@ -61,7 +61,7 @@ class Api {
           }
         }
       }
-    }else{
+    } else {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.remove('token');
       if (kDebugMode) {
@@ -72,7 +72,7 @@ class Api {
   }
 
   bobine(BuildContext context) async {
-    var fullUrl = 'https://filamentgestion.local:4443/api/users';
+    var fullUrl = 'https://filamentgestion.local/api/users';
     Response response = await http.get(Uri.parse(fullUrl), headers: {
       'accept': 'application/json',
       HttpHeaders.authorizationHeader: await getToken(),
@@ -96,7 +96,7 @@ class Api {
     for (var user in users) {
       if (user.containsKey('bobines')) {
         for (var bobineId in user['bobines']) {
-          var bobineUrl = 'https://filamentgestion.local:4443$bobineId';
+          var bobineUrl = 'https://filamentgestion.local$bobineId';
           Response bobineResponse =
               await http.get(Uri.parse(bobineUrl), headers: {
             'accept': 'application/json',
@@ -118,7 +118,7 @@ class Api {
   }
 
   vente(BuildContext context) async {
-    var fullUrl = 'https://filamentgestion.local:4443/api/users';
+    var fullUrl = 'https://filamentgestion.local/api/users';
     Response response = await http.get(Uri.parse(fullUrl), headers: {
       'accept': 'application/json',
       HttpHeaders.authorizationHeader: await getToken(),
@@ -142,7 +142,7 @@ class Api {
     for (var user in users) {
       if (user.containsKey('ventes')) {
         for (var ventesId in user['ventes']) {
-          var bobineUrl = 'https://filamentgestion.local:4443$ventesId';
+          var bobineUrl = 'https://filamentgestion.local$ventesId';
           Response bobineResponse =
               await http.get(Uri.parse(bobineUrl), headers: {
             'accept': 'application/json',
@@ -163,9 +163,8 @@ class Api {
     return ventes;
   }
 
-
   imprimante(BuildContext context) async {
-    var fullUrl = 'https://filamentgestion.local:4443/api/users';
+    var fullUrl = 'https://filamentgestion.local/api/users';
     Response response = await http.get(Uri.parse(fullUrl), headers: {
       'accept': 'application/json',
       HttpHeaders.authorizationHeader: await getToken(),
@@ -189,7 +188,7 @@ class Api {
     for (var user in users) {
       if (user.containsKey('imprimantes')) {
         for (var imprimanteId in user['imprimantes']) {
-          var bobineUrl = 'https://filamentgestion.local:4443$imprimanteId';
+          var bobineUrl = 'https://filamentgestion.local$imprimanteId';
           Response bobineResponse =
               await http.get(Uri.parse(bobineUrl), headers: {
             'accept': 'application/json',
@@ -211,7 +210,7 @@ class Api {
   }
 
   impressions(BuildContext context) async {
-    var fullUrl = 'https://filamentgestion.local:4443/api/users';
+    var fullUrl = 'https://filamentgestion.local/api/users';
     Response response = await http.get(Uri.parse(fullUrl), headers: {
       'accept': 'application/json',
       HttpHeaders.authorizationHeader: await getToken(),
@@ -232,7 +231,7 @@ class Api {
     for (var user in users) {
       if (user.containsKey('impressions')) {
         for (var impressionId in user['impressions']) {
-          var impressionUrl = 'https://filamentgestion.local:4443$impressionId';
+          var impressionUrl = 'https://filamentgestion.local$impressionId';
           Response impressionResponse =
               await http.get(Uri.parse(impressionUrl), headers: {
             'accept': 'application/json',
