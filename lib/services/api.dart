@@ -54,12 +54,10 @@ class Api {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('username', user['username']);
           return user['username'];
-        } else {
-          if (kDebugMode) {
-            print(
-                'La clé "username" n\'existe pas dans le corps de la réponse');
-          }
         }
+      }
+      if (kDebugMode) {
+        print('La clé "username" n\'existe pas dans le corps de la réponse');
       }
     } else {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
