@@ -50,22 +50,26 @@ class ImpressionsPageState extends State<ImpressionsPage> {
           } else if (snapshot.hasError) {
             return Text('Erreur: ${snapshot.error}');
           } else {
-            return ListView.builder(
-              itemCount: impressions.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  elevation: 3,
-                  margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                  child: ListTile(
-                      title: Text('Impression ${index + 1}'),
-                      subtitle: Text('Référence: ${impressions[index]}'),
-                      onTap: (){
+            if (impressions.isEmpty) {
+              return Center(child: Text('Aucune données disponible'));
+            } else {
+              return ListView.builder(
+                itemCount: impressions.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                      elevation: 3,
+                      margin:
+                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                      child: ListTile(
+                        title: Text('Impression ${index + 1}'),
+                        subtitle: Text('Référence: ${impressions[index]}'),
+                        onTap: () {
                           // action à mettre plus tard
-                      },
-                  )
-                );
-              },
-            );
+                        },
+                      ));
+                },
+              );
+            }
           }
         },
       ),

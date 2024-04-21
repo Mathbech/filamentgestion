@@ -41,8 +41,6 @@ class BobinePageState extends State<BobinePage> {
     return Scaffold(
       appBar: CustomAppBar(title: 'Stocks'),
       drawer: CustomDrawer(),
-
-
       body: FutureBuilder(
         future: getBobines(),
         builder: (context, snapshot) {
@@ -51,26 +49,30 @@ class BobinePageState extends State<BobinePage> {
           } else if (snapshot.hasError) {
             return Text('Erreur: ${snapshot.error}');
           } else {
-            return ListView.builder(
-              itemCount: bobines.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  elevation: 3, // Ajoute une ombre légère
-                  margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                  child: ListTile(
-                    title: Text('Bobine ${index + 1}'),
-                    subtitle: Text('Référence: ${bobines[index]}'),
-                    onTap: () {
-                      // Action à mettre plus tard
-                    },
-                  ),
-                );
-              },
-            );
+            if (bobines.isEmpty) {
+              return Center(child: Text('Aucune données disponible'));
+            } else {
+              return ListView.builder(
+                itemCount: bobines.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    elevation: 3, // Ajoute une ombre légère
+                    margin:
+                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                    child: ListTile(
+                      title: Text('Bobine ${index + 1}'),
+                      subtitle: Text('Référence: ${bobines[index]}'),
+                      onTap: () {
+                        // Action à mettre plus tard
+                      },
+                    ),
+                  );
+                },
+              );
+            }
           }
         },
       ),
-
     );
   }
 }

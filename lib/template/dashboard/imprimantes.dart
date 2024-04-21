@@ -41,8 +41,6 @@ class ImprimantePageState extends State<ImprimantePage> {
     return Scaffold(
       appBar: CustomAppBar(title: 'Imprimantes'),
       drawer: CustomDrawer(),
-
-
       body: FutureBuilder(
         future: getImprimante(),
         builder: (context, snapshot) {
@@ -51,21 +49,24 @@ class ImprimantePageState extends State<ImprimantePage> {
           } else if (snapshot.hasError) {
             return Text('Erreur: ${snapshot.error}');
           } else {
-            return ListView.builder(
-              itemCount: imprimante.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  elevation: 3,
-                  margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                  child:  ListTile(
-                  title: Text('Vente ${index + 1}'),
-                  subtitle: Text('Référence: ${imprimante[index]}'),
-                  onTap: () {
-                  },
-                  )
-                );
-              },
-            );
+            if (imprimante.isEmpty) {
+              return Center(child: Text('Aucune données disponible'));
+            } else {
+              return ListView.builder(
+                itemCount: imprimante.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                      elevation: 3,
+                      margin:
+                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                      child: ListTile(
+                        title: Text('Imprimante ${index + 1}'),
+                        subtitle: Text('Référence: ${imprimante[index]}'),
+                        onTap: () {},
+                      ));
+                },
+              );
+            }
           }
         },
       ),
