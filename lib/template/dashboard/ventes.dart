@@ -54,9 +54,16 @@ class VentePageState extends State<VentePage> {
             return ListView.builder(
               itemCount: ventes.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text('Vente ${index + 1}'),
-                  subtitle: Text('Référence: ${ventes[index]}'),
+                return Card(
+                  elevation: 3,
+                  margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                  child: ListTile(
+                    title: Text('Vente ${index + 1}'),
+                    subtitle: Text('Référence: ${ventes[index]}'),
+                    onTap: () {
+                      // action à mettre plus tard
+                    },
+                  )
                 );
               },
             );

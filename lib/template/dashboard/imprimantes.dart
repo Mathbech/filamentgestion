@@ -54,9 +54,15 @@ class ImprimantePageState extends State<ImprimantePage> {
             return ListView.builder(
               itemCount: imprimante.length,
               itemBuilder: (context, index) {
-                return ListTile(
+                return Card(
+                  elevation: 3,
+                  margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                  child:  ListTile(
                   title: Text('Vente ${index + 1}'),
                   subtitle: Text('Référence: ${imprimante[index]}'),
+                  onTap: () {
+                  },
+                  )
                 );
               },
             );
