@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../services/api.dart';
 import '../widget/appbar.dart';
+import '../widget/custom_list_view.dart';
 
 class VentePage extends StatefulWidget {
   const VentePage({super.key});
@@ -49,26 +50,11 @@ class VentePageState extends State<VentePage> {
           } else if (snapshot.hasError) {
             return Text('Erreur: ${snapshot.error}');
           } else {
-            if (ventes.isEmpty) {
-              return Center(child: Text('Aucune données disponible'));
-            } else {
-              return ListView.builder(
-                itemCount: ventes.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                      elevation: 3,
-                      margin:
-                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                      child: ListTile(
-                        title: Text('Vente ${index + 1}'),
-                        subtitle: Text('Référence: ${ventes[index]}'),
-                        onTap: () {
-                          // action à mettre plus tard
-                        },
-                      ));
-                },
-              );
-            }
+            return CustomListView(
+              contentName: 'Vente',
+              items: ventes,
+              emptyMessage: 'Aucune données disponible',
+            );
           }
         },
       ),

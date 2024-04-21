@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../services/api.dart';
 import '../widget/appbar.dart';
+import '../widget/custom_list_view.dart';
 
 class BobinePage extends StatefulWidget {
   const BobinePage({super.key});
@@ -49,29 +50,13 @@ class BobinePageState extends State<BobinePage> {
           } else if (snapshot.hasError) {
             return Text('Erreur: ${snapshot.error}');
           } else {
-            if (bobines.isEmpty) {
-              return Center(child: Text('Aucune données disponible'));
-            } else {
-              return ListView.builder(
-                itemCount: bobines.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    elevation: 3, // Ajoute une ombre légère
-                    margin:
-                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                    child: ListTile(
-                      title: Text('Bobine ${index + 1}'),
-                      subtitle: Text('Référence: ${bobines[index]}'),
-                      onTap: () {
-                        // Action à mettre plus tard
-                      },
-                    ),
-                  );
-                },
-              );
-            }
+            return CustomListView(
+              contentName: 'Bobine',
+              items: bobines,
+              emptyMessage: 'Aucune données disponible',
+            );
           }
-        },
+        }
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../services/api.dart';
 import '../widget/appbar.dart';
+import '../widget/custom_list_view.dart';
 
 class ImpressionsPage extends StatefulWidget {
   const ImpressionsPage({super.key});
@@ -50,26 +51,11 @@ class ImpressionsPageState extends State<ImpressionsPage> {
           } else if (snapshot.hasError) {
             return Text('Erreur: ${snapshot.error}');
           } else {
-            if (impressions.isEmpty) {
-              return Center(child: Text('Aucune données disponible'));
-            } else {
-              return ListView.builder(
-                itemCount: impressions.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                      elevation: 3,
-                      margin:
-                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                      child: ListTile(
-                        title: Text('Impression ${index + 1}'),
-                        subtitle: Text('Référence: ${impressions[index]}'),
-                        onTap: () {
-                          // action à mettre plus tard
-                        },
-                      ));
-                },
-              );
-            }
+            return CustomListView(
+              contentName: 'Impression',
+              items: impressions,
+              emptyMessage: 'Aucune données disponible',
+            );
           }
         },
       ),

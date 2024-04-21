@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../services/api.dart';
 import '../widget/appbar.dart';
+import '../widget/custom_list_view.dart';
 
 class ImprimantePage extends StatefulWidget {
   const ImprimantePage({super.key});
@@ -49,24 +50,11 @@ class ImprimantePageState extends State<ImprimantePage> {
           } else if (snapshot.hasError) {
             return Text('Erreur: ${snapshot.error}');
           } else {
-            if (imprimante.isEmpty) {
-              return Center(child: Text('Aucune données disponible'));
-            } else {
-              return ListView.builder(
-                itemCount: imprimante.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                      elevation: 3,
-                      margin:
-                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                      child: ListTile(
-                        title: Text('Imprimante ${index + 1}'),
-                        subtitle: Text('Référence: ${imprimante[index]}'),
-                        onTap: () {},
-                      ));
-                },
-              );
-            }
+            return CustomListView(
+              contentName: 'Imprimante',
+              items: imprimante,
+              emptyMessage: 'Aucune données disponible',
+            );
           }
         },
       ),
