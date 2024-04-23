@@ -1,6 +1,7 @@
 // lib/custom_list_view.dart
 
 import 'package:flutter/material.dart';
+import '../dashboard/detail.dart';
 
 class CustomListView extends StatelessWidget {
   final List<String> items;
@@ -24,7 +25,12 @@ class CustomListView extends StatelessWidget {
               title: Text('${contentName} ${index + 1}'),
               subtitle: Text('Référence: ${items[index]}'),
               onTap: () {
-                // action à mettre plus tard
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DetailPage(item: items[index]),
+                  ),
+                );
               },
             ),
           );
