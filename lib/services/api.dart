@@ -149,15 +149,16 @@ class Api {
             HttpHeaders.authorizationHeader: await getToken(),
           });
           if (bobineResponse.statusCode == 200) {
-            var bobine = json.decode(bobineResponse.body);
-            ventes.add(bobine.toString());
+            // var bobine = json.decode(bobineResponse.body);
+            var vente = bobineResponse.body;
+            ventes.add(vente.toString());
           }
         }
       }
     }
 
     if (kDebugMode) {
-      print('La liste des bobines est : $ventes');
+      print('La liste des ventes est : $ventes');
     }
 
     return ventes;
@@ -188,15 +189,15 @@ class Api {
     for (var user in users) {
       if (user.containsKey('imprimantes')) {
         for (var imprimanteId in user['imprimantes']) {
-          var bobineUrl = 'https://filamentgestion.local$imprimanteId';
-          Response bobineResponse =
-              await http.get(Uri.parse(bobineUrl), headers: {
+          var imprimanteUrl = 'https://filamentgestion.local$imprimanteId';
+          Response imprimantesResponse =
+              await http.get(Uri.parse(imprimanteUrl), headers: {
             'accept': 'application/json',
             HttpHeaders.authorizationHeader: await getToken(),
           });
-          if (bobineResponse.statusCode == 200) {
-            var bobine = json.decode(bobineResponse.body);
-            imprimante.add(bobine.toString());
+          if (imprimantesResponse.statusCode == 200) {
+            var imprimantes = imprimantesResponse.body;
+            imprimante.add(imprimantes.toString());
           }
         }
       }
@@ -238,7 +239,8 @@ class Api {
             HttpHeaders.authorizationHeader: await getToken(),
           });
           if (impressionResponse.statusCode == 200) {
-            var impression = json.decode(impressionResponse.body);
+            // var impression = json.decode(impressionResponse.body);
+            var impression = impressionResponse.body;
             impressions.add(impression.toString());
           }
         }
