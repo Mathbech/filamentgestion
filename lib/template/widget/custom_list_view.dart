@@ -3,10 +3,14 @@ import '../dashboard/detail.dart';
 
 class CustomListView extends StatelessWidget {
   final List<String> items;
-  final String emptyMessage;
+  final String emptyMessage = 'Aucun élément trouvé';
   final String contentName;
+  final String details;
 
-  CustomListView({required this.items, required this.emptyMessage, required this.contentName});
+  CustomListView(
+      {required this.items,
+      required this.contentName,
+      required this.details});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +30,9 @@ class CustomListView extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => DetailPage(itemString: items[index]),
+                    builder: (context) => DetailPage(
+                        itemString: items[index],
+                        detail: '${details}'),
                   ),
                 );
               },

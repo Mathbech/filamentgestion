@@ -53,7 +53,7 @@ class VentePageState extends State<VentePage> {
             return CustomListView(
               contentName: 'Vente',
               items: ventes,
-              emptyMessage: 'Aucune données disponible',
+              details: 'Détails de la vente',
             );
           }
         },

@@ -54,7 +54,7 @@ class ImpressionsPageState extends State<ImpressionsPage> {
             return CustomListView(
               contentName: 'Impression',
               items: impressions,
-              emptyMessage: 'Aucune données disponible',
+              details: 'Détails de l\'impression',
             );
           }
         },

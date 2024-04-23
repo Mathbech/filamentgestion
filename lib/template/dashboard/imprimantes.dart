@@ -53,7 +53,7 @@ class ImprimantePageState extends State<ImprimantePage> {
             return CustomListView(
               contentName: 'Imprimante',
               items: imprimante,
-              emptyMessage: 'Aucune données disponible',
+              details: 'Détails de l\'imprimante',
             );
           }
         },

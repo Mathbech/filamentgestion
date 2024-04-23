@@ -53,7 +53,7 @@ class BobinePageState extends State<BobinePage> {
             return CustomListView(
               contentName: 'Bobine',
               items: bobines,
-              emptyMessage: 'Aucune données disponible',
+              details: 'Détails de la bobine',
             );
           }
         }
