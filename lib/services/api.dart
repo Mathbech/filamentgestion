@@ -101,7 +101,9 @@ class Api {
             HttpHeaders.authorizationHeader: await getToken(),
           });
           if (bobineResponse.statusCode == 200) {
-            var bobine = json.decode(bobineResponse.body);
+            print(bobineResponse.body);
+            // var bobine = json.decode(bobineResponse.body);
+            var bobine = bobineResponse.body;
             bobines.add(bobine.toString());
           }
         }
