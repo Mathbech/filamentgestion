@@ -1,5 +1,3 @@
-// lib/custom_list_view.dart
-
 import 'package:flutter/material.dart';
 import '../dashboard/detail.dart';
 
@@ -28,7 +26,7 @@ class CustomListView extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => DetailPage(item: items[index]),
+                    builder: (context) => DetailPage(itemString: items[index]),
                   ),
                 );
               },
