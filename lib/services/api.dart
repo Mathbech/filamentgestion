@@ -34,7 +34,7 @@ class Api {
       HttpHeaders.authorizationHeader: await getToken(),
     });
 
-    final users = json.decode(response.body);
+    final users = response.body;
     if (kDebugMode) {
       print(users);
     }
@@ -49,16 +49,7 @@ class Api {
     }
 
     if (users.isNotEmpty) {
-      for (var user in users) {
-        if (user.containsKey('username')) {
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.setString('username', user['username']);
-          return user['username'];
-        }
-      }
-      if (kDebugMode) {
-        print('La clé "username" n\'existe pas dans le corps de la réponse');
-      }
+        return users;
     } else {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.remove('token');

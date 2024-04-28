@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../services/api.dart';
 import '../widget/appbar.dart';
+import 'dart:convert';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -16,6 +17,10 @@ class DashboardPage extends StatefulWidget {
 
 class DashboardPageState extends State<DashboardPage> {
   String username = '';
+  int impression = 0;
+  int ventes = 0;
+  int imprimantes = 0;
+  bool _isLoading = false;
   @override
   void initState() {
     super.initState();
@@ -23,29 +28,92 @@ class DashboardPageState extends State<DashboardPage> {
   }
 
   Future<void> getUsername() async {
+    setState(() {
+      _isLoading = true;
+    });
     Api apiInstance = Api();
-    String? Username = await apiInstance.user(context);
-    print(Username);
-    if (Username != null) {
-      username = Username;
+    String? userResponse = await apiInstance.user(context);
+    print(userResponse);
+    if (userResponse != null) {
+      List<dynamic> users = jsonDecode(userResponse);
+      for (var user in users) {
+        String username = user['username'];
+        int impressionCount = 0;
+        if (user['impressions'] is List<dynamic>) {
+          impressionCount = user['impressions'].length;
+        }
+
+        int imprimanteCount = 0;
+        if (user['imprimantes'] is List<dynamic>) {
+          imprimanteCount = user['imprimantes'].length;
+        }
+
+        int venteCount = 0;
+        if (user['ventes'] is List<dynamic>) {
+          venteCount = user['ventes'].length;
+        }
+
+        setState(() {
+          this.username = username;
+          this.impression = impressionCount;
+          this.imprimantes = imprimanteCount;
+          this.ventes = venteCount;
+          _isLoading = false;
+        });
+      }
     } else {
       if (kDebugMode) {
         print('La méthode user a retourné null');
       }
+      setState(() {
+        _isLoading = false;
+      });
       return null;
     }
-    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       appBar: CustomAppBar(title: 'Tableau de bord'),
-       drawer: CustomDrawer(),
-
-      body: Center(
-        child: Text('Bienvenue ${username} !'),
-      ),
+      appBar: CustomAppBar(title: 'Tableau de bord'),
+      drawer: CustomDrawer(),
+      body: _isLoading ? Center(child: CircularProgressIndicator()) : Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                    child: Card(
+                      child: ListTile(
+                        leading: Icon(Icons.print),
+                        title: Text('Impressions'),
+                        trailing: Text('$impression'),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                    child: Card(
+                      child: ListTile(
+                        leading: Icon(Icons.print_disabled),
+                        title: Text('Imprimantes'),
+                        trailing: Text('$imprimantes'),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                    child: Card(
+                      child: ListTile(
+                        leading: Icon(Icons.shopping_cart),
+                        title: Text('Ventes'),
+                        trailing: Text('$ventes'),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
     );
   }
 }
