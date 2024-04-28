@@ -20,6 +20,7 @@ class DashboardPageState extends State<DashboardPage> {
   int impression = 0;
   int ventes = 0;
   int imprimantes = 0;
+  int bobines = 0;
   bool _isLoading = false;
   @override
   void initState() {
@@ -53,11 +54,17 @@ class DashboardPageState extends State<DashboardPage> {
           venteCount = user['ventes'].length;
         }
 
+        int bobineCount = 0;
+        if (user['bobines'] is List<dynamic>) {
+          bobineCount = user['bobines'].length;
+        }
+
         setState(() {
           this.username = username;
           this.impression = impressionCount;
           this.imprimantes = imprimanteCount;
           this.ventes = venteCount;
+          this.bobines = bobineCount;
           _isLoading = false;
         });
       }
@@ -85,6 +92,16 @@ class DashboardPageState extends State<DashboardPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 50.0),
                     child: Card(
                       child: ListTile(
+                        leading: Icon(Icons.shopping_cart),
+                        title: Text('Stocks'),
+                        trailing: Text('$bobines'),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                    child: Card(
+                      child: ListTile(
                         leading: Icon(Icons.print),
                         title: Text('Impressions'),
                         trailing: Text('$impression'),
@@ -95,7 +112,7 @@ class DashboardPageState extends State<DashboardPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 50.0),
                     child: Card(
                       child: ListTile(
-                        leading: Icon(Icons.print_disabled),
+                        leading: Icon(Icons.print),
                         title: Text('Imprimantes'),
                         trailing: Text('$imprimantes'),
                       ),
