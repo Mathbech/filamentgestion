@@ -7,19 +7,8 @@ import 'template/dashboard/imprimantes.dart';
 import 'template/dashboard/impressions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'dart:io';
-
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-  }
-}
 
 void main() async {
-  HttpOverrides.global = new MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String initialRoute = '/';

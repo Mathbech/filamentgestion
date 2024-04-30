@@ -14,7 +14,7 @@ class Api {
   }
 
   login(data) async {
-    var fullUrl = 'https://filamentgestion.local/auth';
+    var fullUrl = 'https://std22.beaupeyrat.com/auth';
 
     Response response = await http.post(
       Uri.parse(fullUrl),
@@ -28,7 +28,7 @@ class Api {
   }
 
   user(BuildContext context) async {
-    var fullUrl = 'https://filamentgestion.local/api/users';
+    var fullUrl = 'https://std22.beaupeyrat.com/api/users';
     Response response = await http.get(Uri.parse(fullUrl), headers: {
       'accept': 'application/json',
       HttpHeaders.authorizationHeader: await getToken(),
@@ -61,7 +61,7 @@ class Api {
   }
 
   bobine(BuildContext context) async {
-    var fullUrl = 'https://filamentgestion.local/api/users';
+    var fullUrl = 'https://std22.beaupeyrat.com/api/users';
     Response response = await http.get(Uri.parse(fullUrl), headers: {
       'accept': 'application/json',
       HttpHeaders.authorizationHeader: await getToken(),
@@ -85,7 +85,7 @@ class Api {
     for (var user in users) {
       if (user.containsKey('bobines')) {
         for (var bobineId in user['bobines']) {
-          var bobineUrl = 'https://filamentgestion.local$bobineId';
+          var bobineUrl = 'https://std22.beaupeyrat.com$bobineId';
           Response bobineResponse =
               await http.get(Uri.parse(bobineUrl), headers: {
             'accept': 'application/json',
@@ -109,7 +109,7 @@ class Api {
   }
 
   vente(BuildContext context) async {
-    var fullUrl = 'https://filamentgestion.local/api/users';
+    var fullUrl = 'https://std22.beaupeyrat.com/api/users';
     Response response = await http.get(Uri.parse(fullUrl), headers: {
       'accept': 'application/json',
       HttpHeaders.authorizationHeader: await getToken(),
@@ -133,7 +133,7 @@ class Api {
     for (var user in users) {
       if (user.containsKey('ventes')) {
         for (var ventesId in user['ventes']) {
-          var bobineUrl = 'https://filamentgestion.local$ventesId';
+          var bobineUrl = 'https://std22.beaupeyrat.com$ventesId';
           Response bobineResponse =
               await http.get(Uri.parse(bobineUrl), headers: {
             'accept': 'application/json',
@@ -156,7 +156,7 @@ class Api {
   }
 
   imprimante(BuildContext context) async {
-    var fullUrl = 'https://filamentgestion.local/api/users';
+    var fullUrl = 'https://std22.beaupeyrat.com/api/users';
     Response response = await http.get(Uri.parse(fullUrl), headers: {
       'accept': 'application/json',
       HttpHeaders.authorizationHeader: await getToken(),
@@ -180,7 +180,7 @@ class Api {
     for (var user in users) {
       if (user.containsKey('imprimantes')) {
         for (var imprimanteId in user['imprimantes']) {
-          var imprimanteUrl = 'https://filamentgestion.local$imprimanteId';
+          var imprimanteUrl = 'https://std22.beaupeyrat.com$imprimanteId';
           Response imprimantesResponse =
               await http.get(Uri.parse(imprimanteUrl), headers: {
             'accept': 'application/json',
@@ -202,7 +202,7 @@ class Api {
   }
 
   impressions(BuildContext context) async {
-    var fullUrl = 'https://filamentgestion.local/api/users';
+    var fullUrl = 'https://std22.beaupeyrat.com/api/users';
     Response response = await http.get(Uri.parse(fullUrl), headers: {
       'accept': 'application/json',
       HttpHeaders.authorizationHeader: await getToken(),
@@ -223,7 +223,7 @@ class Api {
     for (var user in users) {
       if (user.containsKey('impressions')) {
         for (var impressionId in user['impressions']) {
-          var impressionUrl = 'https://filamentgestion.local$impressionId';
+          var impressionUrl = 'https://std22.beaupeyrat.com$impressionId';
           Response impressionResponse =
               await http.get(Uri.parse(impressionUrl), headers: {
             'accept': 'application/json',
