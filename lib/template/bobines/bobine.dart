@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../services/api.dart';
 import '../widget/appbar.dart';
-import '../widget/custom_list_view.dart';
+import './list.dart';
 
 class BobinePage extends StatefulWidget {
   const BobinePage({super.key});
