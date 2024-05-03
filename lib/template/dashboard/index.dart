@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../services/api.dart';
 import '../widget/appbar.dart';
 import 'dart:convert';
@@ -39,6 +40,9 @@ class DashboardPageState extends State<DashboardPage> {
       List<dynamic> users = jsonDecode(userResponse);
       for (var user in users) {
         String username = user['username'];
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('username', username);
+        
         int impressionCount = 0;
         if (user['impressions'] is List<dynamic>) {
           impressionCount = user['impressions'].length;
