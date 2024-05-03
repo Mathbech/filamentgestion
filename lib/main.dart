@@ -1,10 +1,10 @@
 import '/template/dashboard/index.dart';
 import 'package:flutter/material.dart';
 import 'template/login/widget/index.dart';
-import 'template/dashboard/bobine.dart';
-import 'template/dashboard/ventes.dart';
-import 'template/dashboard/imprimantes.dart';
-import 'template/dashboard/impressions.dart';
+import 'template/bobines/bobine.dart';
+import 'template/ventes/ventes.dart';
+import 'template/imprimantes/imprimantes.dart';
+import 'template/impressions/impressions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
