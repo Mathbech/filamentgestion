@@ -57,7 +57,10 @@ class CustomDrawer extends StatelessWidget {
                         child: Column(
                           children: [
                             Text('Menu'),
-                            Text('Connecté en tant que : $username'),
+                            Padding(
+                              padding: EdgeInsets.only(top: 20.0),
+                              child: Text('Connecté en tant que : $username'),
+                            )
                           ],
                         ),
                       ),
