@@ -33,7 +33,7 @@ class ImpressionsPageState extends State<ImpressionsPage> {
       return impression;
     } else {
       if (kDebugMode) {
-        print('La méthode bobine a retourné null');
+        print('La méthode impression a retourné null');
       }
       return [];
     }
