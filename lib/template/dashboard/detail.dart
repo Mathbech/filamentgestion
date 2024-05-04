@@ -13,11 +13,7 @@ class DetailPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('${detailTitle}'),
       ),
-    //   body: Center(
-    //     child: Text('Détails pour ${item['prix']}'), // Remplacez 'name' par la clé appropriée de votre Map
-    //   ),
-    // );
-    body: SingleChildScrollView(
+      body: SingleChildScrollView(
         child: DataTable(
           columns: const <DataColumn>[
             DataColumn(
