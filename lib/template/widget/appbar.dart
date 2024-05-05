@@ -57,10 +57,7 @@ class CustomDrawer extends StatelessWidget {
                         child: Column(
                           children: [
                             Text('Menu'),
-                            Padding(
-                              padding: EdgeInsets.only(top: 20.0),
-                              child: Text('Connecté en tant que : $username'),
-                            )
+                            Text('Connecté en tant que : $username'),
                           ],
                         ),
                       ),
@@ -105,13 +102,19 @@ class CustomDrawer extends StatelessWidget {
                             Api apiInstance = Api();
                             apiInstance.logout(context);
                           }),
-                      Positioned(
-                        bottom: 0,
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Text('Version: $version'),
-                        ),
-                      ),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Flexible(
+                            fit: FlexFit.loose,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text('Version: $version'),
+                            ),
+                          ),
+                          // Vos autres widgets ici...
+                        ],
+                      )
                     ],
                   ),
                 ],

@@ -29,9 +29,7 @@ class ImprimantePageState extends State<ImprimantePage> {
     Api apiInstance = Api();
     List<dynamic>? tempImprimantes = await apiInstance.imprimante(context);
     if (tempImprimantes != null) {
-      imprimante = tempImprimantes
-          .map((imprimante) => Imprimante.fromMap(jsonDecode(imprimante)))
-          .toList();
+      imprimante = tempImprimantes.map((imprimante) => Imprimante.fromMap(jsonDecode(imprimante))).toList();
       return imprimante;
     } else {
       if (kDebugMode) {
