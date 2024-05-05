@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import '../../services/api.dart';
 import '../widget/appbar.dart';
-import '../widget/custom_list_view.dart';
 
 class VentePage extends StatefulWidget {
   const VentePage({super.key});
@@ -16,24 +16,25 @@ class VentePage extends StatefulWidget {
 }
 
 class VentePageState extends State<VentePage> {
-  List<String> ventes = [];
+  List<Vente> ventes = [];
+  String contentName = 'Vente';
+  String details = 'Détails de la vente';
   @override
   void initState() {
     super.initState();
     getVentes();
   }
-
-  Future<void> getVentes() async {
+  Future<List<Vente>> getVentes() async {
     Api apiInstance = Api();
     List<dynamic>? tempVentes = await apiInstance.vente(context);
     if (tempVentes != null) {
-      ventes = tempVentes.map((vente) => vente.toString()).toList();
-      print(ventes);
+      ventes = tempVentes.map((vente) => Vente.fromMap(jsonDecode(vente))).toList();
+      return ventes;
     } else {
       if (kDebugMode) {
-        print('La méthode bobine a retourné null');
+        print('La méthode impression a retourné null');
       }
-      return null;
+      return [];
     }
   }
 
@@ -42,22 +43,76 @@ class VentePageState extends State<VentePage> {
     return Scaffold(
       appBar: CustomAppBar(title: 'Ventes'),
       drawer: CustomDrawer(),
-      body: FutureBuilder(
-        future: getVentes(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Text('Erreur: ${snapshot.error}');
-          } else {
-            return CustomListView(
-              contentName: 'Vente',
-              items: ventes,
-              details: 'Détails de la vente',
-            );
-          }
+      body: RefreshIndicator(
+          onRefresh: () async {
+            setState(() {
+              getVentes();
+            });
+          },
+          child: FutureBuilder<List<Vente>>(
+            future: getVentes(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Text('Erreur: ${snapshot.error}');
+              } else {
+                ventes = snapshot.data!;
+                return ListView.builder(
+                  itemCount: ventes.length,
+                  itemBuilder: (context, index) {
+                    var vente = ventes[index];
+                    return Card(
+                      elevation: 3,
+                      margin:
+                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                      child: ListTile(
+                        title: Text('${contentName} ${index + 1}'),
+                        subtitle: Text(
+                            'Poids de bobine consommé: ${vente.nom}, Date d\'impression: ${vente.prix}'),
+                        onTap: () {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => DetailPage(
+                          //       item: impressions[index],
+                          //       detailTitle: '${details}',
+                          //     ),
+                          //   ),
+                          // );
+                        },
+                      ),
+                    );
+                  },
+                );
+              }
+            },
+          )),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            getVentes();
+          });
         },
+        child: Icon(Icons.refresh),
       ),
+    );
+  }
+}
+
+class Vente {
+  final String nom;
+  final double prix;
+
+  Vente({
+    required this.nom,
+    required this.prix,
+  });
+
+  factory Vente.fromMap(Map<String, dynamic> json) {
+    return Vente(
+      nom: json['nom_produit'],
+      prix: json['prix_produit'],
     );
   }
 }

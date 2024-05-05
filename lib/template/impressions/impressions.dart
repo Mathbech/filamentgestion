@@ -76,7 +76,7 @@ class ImpressionsPageState extends State<ImpressionsPage> {
                           //   context,
                           //   MaterialPageRoute(
                           //     builder: (context) => DetailPage(
-                          //       item: bobine[index],
+                          //       item: impressions[index],
                           //       detailTitle: '${details}',
                           //     ),
                           //   ),
