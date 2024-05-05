@@ -58,6 +58,8 @@ Future<List<Bobine>> getBobines() async {
                 return Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Text('Erreur: ${snapshot.error}');
+              } else if (bobine.isEmpty) {
+                return Center(child: Text('Aucunes données disponibles.'));
               } else {
                 bobine = snapshot.data!;
                 return ListView.builder(

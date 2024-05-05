@@ -56,6 +56,8 @@ class VentePageState extends State<VentePage> {
                 return Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Text('Erreur: ${snapshot.error}');
+              } else if (ventes.isEmpty) {
+                return Center(child: Text('Aucunes données disponibles.'));
               } else {
                 ventes = snapshot.data!;
                 return ListView.builder(

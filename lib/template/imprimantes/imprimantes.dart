@@ -57,6 +57,8 @@ class ImprimantePageState extends State<ImprimantePage> {
                 return Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Text('Erreur: ${snapshot.error}');
+              } else if (imprimante.isEmpty) {
+                return Center(child: Text('Aucunes données disponibles.'));
               } else {
                 imprimante = snapshot.data!;
                 return ListView.builder(
