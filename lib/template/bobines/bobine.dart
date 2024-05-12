@@ -134,7 +134,7 @@ class Bobine {
       'prix': prix,
       'categorie': categorie,
       'couleur': couleur,
-      'date_ajout': date_ajout,
+      'date d\'ajout': date_ajout,
     };
   }
 }
