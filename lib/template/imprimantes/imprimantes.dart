@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../services/api.dart';
 import '../widget/appbar.dart';
 import 'dart:convert';
+import '../dashboard/detail.dart';
 
 class ImprimantePage extends StatefulWidget {
   const ImprimantePage({super.key});
@@ -29,7 +30,9 @@ class ImprimantePageState extends State<ImprimantePage> {
     Api apiInstance = Api();
     List<dynamic>? tempImprimantes = await apiInstance.imprimante(context);
     if (tempImprimantes != null) {
-      imprimante = tempImprimantes.map((imprimante) => Imprimante.fromMap(jsonDecode(imprimante))).toList();
+      imprimante = tempImprimantes
+          .map((imprimante) => Imprimante.fromMap(jsonDecode(imprimante)))
+          .toList();
       return imprimante;
     } else {
       if (kDebugMode) {
@@ -74,15 +77,15 @@ class ImprimantePageState extends State<ImprimantePage> {
                         subtitle: Text(
                             'Nom: ${imprimantes.nom}, Marque: ${imprimantes.marque}'),
                         onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => DetailPage(
-                          //       item: bobine[index],
-                          //       detailTitle: '${details}',
-                          //     ),
-                          //   ),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailPage(
+                                item: imprimantes.toMap(),
+                                detailTitle: '${details}',
+                              ),
+                            ),
+                          );
                         },
                       ),
                     );
@@ -106,13 +109,26 @@ class ImprimantePageState extends State<ImprimantePage> {
 class Imprimante {
   final String nom;
   final String marque;
+  final String type;
+  final String? deleted;
 
-  Imprimante({required this.nom, required this.marque});
+  Imprimante({required this.nom, required this.marque, required this.type, this.deleted});
 
   factory Imprimante.fromMap(Map<String, dynamic> map) {
     return Imprimante(
       nom: map['nom_imprimante'],
       marque: map['marque'],
+      type: map['type_imprimante'],
+      deleted: map['deleted'],
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'Nom': nom,
+      'Marque': marque,
+      'Modèle': type,
+      'Active': deleted == null ? 'Imprimante active' : deleted.toString(),
+    };
   }
 }
