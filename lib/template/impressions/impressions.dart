@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:intl/intl.dart';
 import '../../services/api.dart';
 import '../widget/appbar.dart';
-import 'dart:convert';
+import '../dashboard/detail.dart';
 
 class ImpressionsPage extends StatefulWidget {
   const ImpressionsPage({super.key});
@@ -29,7 +31,9 @@ class ImpressionsPageState extends State<ImpressionsPage> {
     Api apiInstance = Api();
     List<dynamic>? tempImpressions = await apiInstance.impressions(context);
     if (tempImpressions != null) {
-      impression = tempImpressions.map((impression) => Impression.fromMap(jsonDecode(impression))).toList();
+      impression = tempImpressions
+          .map((impression) => Impression.fromMap(jsonDecode(impression)))
+          .toList();
       return impression;
     } else {
       if (kDebugMode) {
@@ -59,7 +63,7 @@ class ImpressionsPageState extends State<ImpressionsPage> {
                 return Text('Erreur: ${snapshot.error}');
               } else if (impression.isEmpty) {
                 return Center(child: Text('Aucunes données disponibles.'));
-              } else{
+              } else {
                 impression = snapshot.data!;
                 return ListView.builder(
                   itemCount: impression.length,
@@ -74,15 +78,15 @@ class ImpressionsPageState extends State<ImpressionsPage> {
                         subtitle: Text(
                             'Poids de bobine consommé: ${impressions.poids}, Date d\'impression: ${impressions.date_impression}'),
                         onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => DetailPage(
-                          //       item: impressions[index],
-                          //       detailTitle: '${details}',
-                          //     ),
-                          //   ),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailPage(
+                                item: impressions.toMap(),
+                                detailTitle: '${details}',
+                              ),
+                            ),
+                          );
                         },
                       ),
                     );
@@ -105,14 +109,24 @@ class ImpressionsPageState extends State<ImpressionsPage> {
 
 class Impression {
   final double poids;
-  final DateTime date_impression;
+  final String date_impression;
+  final String temps;
 
-  Impression({required this.poids, required this.date_impression});
+  Impression({required this.poids, required this.date_impression, required this.temps});
 
   factory Impression.fromMap(Map<String, dynamic> map) {
     return Impression(
       poids: map['poids'],
-      date_impression: DateTime.parse(map['date']),
+      date_impression: DateFormat('dd/MM/yyyy').format(DateTime.parse(map['date']),),
+      temps: DateFormat('HH:mm').format(DateTime.parse(map['temps'])),
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'poids': poids,
+      'date_impression': date_impression,
+      'temps': temps,
+    };
   }
 }

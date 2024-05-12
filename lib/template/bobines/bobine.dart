@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import '../../services/api.dart';
 import '../widget/appbar.dart';
 import '../dashboard/detail.dart';
