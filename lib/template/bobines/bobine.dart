@@ -1,8 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import '../../services/api.dart';
 import '../widget/appbar.dart';
-// import '../dashboard/detail.dart';
+import '../dashboard/detail.dart';
 import 'dart:convert';
 
 class BobinePage extends StatefulWidget {
@@ -26,19 +27,21 @@ class BobinePageState extends State<BobinePage> {
     getBobines();
   }
 
-Future<List<Bobine>> getBobines() async {
-  Api apiInstance = Api();
-  List<dynamic>? tempBobines = await apiInstance.bobine(context);
-  if (tempBobines != null) {
-    bobine = tempBobines.map((bobine) => Bobine.fromMap(jsonDecode(bobine))).toList();
-    return bobine;
-  } else {
-    if (kDebugMode) {
-      print('La méthode bobine a retourné null');
+  Future<List<Bobine>> getBobines() async {
+    Api apiInstance = Api();
+    List<dynamic>? tempBobines = await apiInstance.bobine(context);
+    if (tempBobines != null) {
+      bobine = tempBobines
+          .map((bobine) => Bobine.fromMap(jsonDecode(bobine)))
+          .toList();
+      return bobine;
+    } else {
+      if (kDebugMode) {
+        print('La méthode bobine a retourné null');
+      }
+      return [];
     }
-    return [];
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -46,12 +49,12 @@ Future<List<Bobine>> getBobines() async {
       appBar: CustomAppBar(title: 'Stocks'),
       drawer: CustomDrawer(),
       body: RefreshIndicator(
-        onRefresh: () async {
-          setState(() {
-            getBobines();
-          });
-        },
-        child: FutureBuilder<List<Bobine>>(
+          onRefresh: () async {
+            setState(() {
+              getBobines();
+            });
+          },
+          child: FutureBuilder<List<Bobine>>(
             future: getBobines(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -75,15 +78,15 @@ Future<List<Bobine>> getBobines() async {
                         subtitle: Text(
                             'Couleur: ${bobines.couleur}, Catégorie de filament: ${bobines.categorie}'),
                         onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => DetailPage(
-                          //       item: bobine[index],
-                          //       detailTitle: '${details}',
-                          //     ),
-                          //   ),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailPage(
+                                item: bobines.toMap(),
+                                detailTitle: '${details}',
+                              ),
+                            ),
+                          );
                         },
                       ),
                     );
@@ -92,7 +95,7 @@ Future<List<Bobine>> getBobines() async {
               }
             },
           )
-      ),
+        ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
@@ -108,14 +111,30 @@ Future<List<Bobine>> getBobines() async {
 class Bobine {
   final String couleur;
   final String categorie;
+  final String date_ajout;
+  final double poids;
+  final double prix;
 
-  Bobine({required this.couleur, required this.categorie});
+  Bobine({required this.couleur, required this.categorie, required this.date_ajout, required this.poids, required this.prix});
 
   // Convertir un Map en une instance de Bobine
   factory Bobine.fromMap(Map<String, dynamic> map) {
     return Bobine(
       couleur: map['couleur'],
       categorie: map['categorie'],
+      date_ajout: map['date_ajout'],
+      poids: map['poids'],
+      prix: map['prix'],
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'poids':  poids,
+      'prix': prix,
+      'categorie': categorie,
+      'couleur': couleur,
+      'date_ajout': date_ajout,
+    };
   }
 }
