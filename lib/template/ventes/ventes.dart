@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import '../../services/api.dart';
 import '../widget/appbar.dart';
+import '../dashboard/detail.dart';
 
 class VentePage extends StatefulWidget {
   const VentePage({super.key});
@@ -73,15 +74,15 @@ class VentePageState extends State<VentePage> {
                         subtitle: Text(
                             'Poids de bobine consommé: ${vente.nom}, Date d\'impression: ${vente.prix}'),
                         onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => DetailPage(
-                          //       item: impressions[index],
-                          //       detailTitle: '${details}',
-                          //     ),
-                          //   ),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailPage(
+                                item: vente.toMap(),
+                                detailTitle: '${details}',
+                              ),
+                            ),
+                          );
                         },
                       ),
                     );
@@ -105,16 +106,33 @@ class VentePageState extends State<VentePage> {
 class Vente {
   final String nom;
   final double prix;
+  final String date;
+  final String description;
+
 
   Vente({
     required this.nom,
     required this.prix,
+    required this.date,
+    required this.description,
   });
 
   factory Vente.fromMap(Map<String, dynamic> json) {
     return Vente(
       nom: json['nom_produit'],
       prix: json['prix_produit'],
+      date: json['date_vente'],
+      description: json['description_produit'],
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'nom du produit': nom,
+      'prix du produit': prix,
+      'date de la vente': date,
+      'description du produit': description,
+
+    };
   }
 }
