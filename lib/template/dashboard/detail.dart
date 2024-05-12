@@ -1,11 +1,9 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 
 class DetailPage extends StatelessWidget {
   final Map<String, dynamic> item;
   final String detailTitle;
-
-  DetailPage({required String itemString, required String detail}) : item = jsonDecode(itemString), detailTitle = detail;
+  DetailPage({required this.item, required this.detailTitle});
 
   @override
   Widget build(BuildContext context) {
