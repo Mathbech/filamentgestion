@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'package:intl/intl.dart';
 import '../../services/api.dart';
 import '../widget/appbar.dart';
 import '../dashboard/detail.dart';
@@ -72,7 +73,7 @@ class VentePageState extends State<VentePage> {
                       child: ListTile(
                         title: Text('${contentName} ${index + 1}'),
                         subtitle: Text(
-                            'Poids de bobine consommé: ${vente.nom}, Date d\'impression: ${vente.prix}'),
+                            'Nom du produit : ${vente.nom}, Prix de vente: ${vente.prix}'),
                         onTap: () {
                           Navigator.push(
                             context,
@@ -117,12 +118,12 @@ class Vente {
     required this.description,
   });
 
-  factory Vente.fromMap(Map<String, dynamic> json) {
+  factory Vente.fromMap(Map<String, dynamic> map) {
     return Vente(
-      nom: json['nom_produit'],
-      prix: json['prix_produit'],
-      date: json['date_vente'],
-      description: json['description_produit'],
+      nom: map['nom_produit'],
+      prix: map['prix_produit'],
+      date: DateFormat('dd/MM/yyyy').format(DateTime.parse(map['date_vente']),),
+      description: map['description_produit'],
     );
   }
 

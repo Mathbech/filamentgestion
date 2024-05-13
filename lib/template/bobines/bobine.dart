@@ -1,9 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:intl/intl.dart';
 import '../../services/api.dart';
 import '../widget/appbar.dart';
 import '../dashboard/detail.dart';
-import 'dart:convert';
 
 class BobinePage extends StatefulWidget {
   const BobinePage({super.key});
@@ -121,7 +122,7 @@ class Bobine {
     return Bobine(
       couleur: map['couleur'],
       categorie: map['categorie'],
-      date_ajout: map['date_ajout'],
+      date_ajout: DateFormat('dd/MM/yyyy').format(DateTime.parse(map['date_ajout']),),
       poids: map['poids'],
       prix: map['prix'],
     );

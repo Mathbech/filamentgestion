@@ -1,8 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:intl/intl.dart';
 import '../../services/api.dart';
 import '../widget/appbar.dart';
-import 'dart:convert';
 import '../dashboard/detail.dart';
 
 class ImprimantePage extends StatefulWidget {
@@ -119,7 +120,8 @@ class Imprimante {
       nom: map['nom_imprimante'],
       marque: map['marque'],
       type: map['type_imprimante'],
-      deleted: map['deleted'],
+      // deleted: DateFormat('dd/MM/yyyy').format(DateTime.parse(map['deleted']),),
+      deleted: map['deleted'] != null ? DateFormat('dd/MM/yyyy').format(DateTime.parse(map['deleted'])) : null,
     );
   }
 
@@ -128,7 +130,7 @@ class Imprimante {
       'Nom': nom,
       'Marque': marque,
       'Modèle': type,
-      'Active': deleted == null ? 'Imprimante active' : deleted.toString(),
+      'Désactivé le': deleted == null ? 'Imprimante active' : deleted,
     };
   }
 }
