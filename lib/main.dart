@@ -6,6 +6,8 @@ import 'template/ventes/ventes.dart';
 import 'template/imprimantes/imprimantes.dart';
 import 'template/impressions/impressions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'services/data_loader.dart';
+
 
 
 void main() async {
@@ -15,6 +17,7 @@ void main() async {
   if (prefs.getString('token') != null) {
     initialRoute = '/dashboard';
   }
+  DataLoader().fetchAndStoreData();
   runApp(MainApp(initialRoute: initialRoute));
 }
 
@@ -22,6 +25,8 @@ class MainApp extends StatelessWidget {
   final String initialRoute;
 
   const MainApp({Key? key, required this.initialRoute}) : super(key: key);
+
+  
 
   @override
   Widget build(BuildContext context) {

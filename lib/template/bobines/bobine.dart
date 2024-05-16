@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import '../../services/api.dart';
 import '../widget/appbar.dart';
 import '../dashboard/detail.dart';
+import '../../services/data_loader.dart';
 
 class BobinePage extends StatefulWidget {
   const BobinePage({super.key});
@@ -21,10 +22,19 @@ class BobinePageState extends State<BobinePage> {
   List<Bobine> bobine = [];
   String contentName = 'Bobine';
   String details = 'Détails de la bobine';
+  DataLoader dataLoader = DataLoader();
+
   @override
   void initState() {
     super.initState();
-    getBobines();
+    _initializeData();
+  }
+
+  Future<void> _initializeData() async {
+    await dataLoader.fetchAndStoreData();
+    setState(() {
+      getBobines();
+    });
   }
 
   Future<List<Bobine>> getBobines() async {
@@ -41,6 +51,30 @@ class BobinePageState extends State<BobinePage> {
       }
       return [];
     }
+  }
+
+  Future<String?> getColorName(String colorUrl) async {
+    final colorsList = await dataLoader.getStoredColors();
+    final colorId = colorUrl.split('/').last;
+
+    for (var color in colorsList) {
+      if (color['id'].toString() == colorId) {
+        return color['nom'];
+      }
+    }
+    return 'Couleur inconnue';
+  }
+
+  Future<String?> getCategoryName(String categoryUrl) async {
+    final categoriesList = await dataLoader.getStoredCategories();
+    final categoryId = categoryUrl.split('/').last;
+
+    for (var category in categoriesList) {
+      if (category['id'].toString() == categoryId) {
+        return category['nom_type'];
+      }
+    }
+    return 'Catégorie inconnue';
   }
 
   @override
@@ -69,26 +103,40 @@ class BobinePageState extends State<BobinePage> {
                   itemCount: bobine.length,
                   itemBuilder: (context, index) {
                     var bobines = bobine[index];
-                    return Card(
-                      elevation: 3,
-                      margin:
-                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                      child: ListTile(
-                        title: Text('${contentName} ${index + 1}'),
-                        subtitle: Text(
-                            'Couleur: ${bobines.couleur}, Catégorie de filament: ${bobines.categorie}'),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DetailPage(
-                                item: bobines.toMap(),
-                                detailTitle: '${details}',
-                              ),
+                    return FutureBuilder<List<String?>>(
+                      future: Future.wait([
+                        getColorName(bobines.couleur),
+                        getCategoryName(bobines.categorie),
+                      ]),
+                      builder: (context, asyncSnapshot) {
+                        if (asyncSnapshot.connectionState == ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else if (asyncSnapshot.hasError) {
+                          return Text('Erreur: ${asyncSnapshot.error}');
+                        } else {
+                          var colorName = asyncSnapshot.data?[0] ?? 'Couleur inconnue';
+                          var categoryName = asyncSnapshot.data?[1] ?? 'Catégorie inconnue';
+                          return Card(
+                            elevation: 3,
+                            margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                            child: ListTile(
+                              title: Text('${contentName} ${index + 1}'),
+                              subtitle: Text('Couleur: $colorName, Catégorie de filament: $categoryName'),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailPage(
+                                      item: bobines.toMap(),
+                                      detailTitle: '${details}',
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                           );
-                        },
-                      ),
+                        }
+                      },
                     );
                   },
                 );
@@ -109,20 +157,25 @@ class BobinePageState extends State<BobinePage> {
 }
 
 class Bobine {
-  final String couleur;
-  final String categorie;
-  final String date_ajout;
+  final String couleur; // URL of the color
+  final String categorie; // URL of the category
+  final String dateAjout;
   final double poids;
   final double prix;
 
-  Bobine({required this.couleur, required this.categorie, required this.date_ajout, required this.poids, required this.prix});
+  Bobine({
+    required this.couleur,
+    required this.categorie,
+    required this.dateAjout,
+    required this.poids,
+    required this.prix,
+  });
 
-  // Convertir un Map en une instance de Bobine
   factory Bobine.fromMap(Map<String, dynamic> map) {
     return Bobine(
       couleur: map['couleur'],
       categorie: map['categorie'],
-      date_ajout: DateFormat('dd/MM/yyyy').format(DateTime.parse(map['date_ajout']),),
+      dateAjout: DateFormat('dd/MM/yyyy').format(DateTime.parse(map['date_ajout'])),
       poids: map['poids'],
       prix: map['prix'],
     );
@@ -130,11 +183,11 @@ class Bobine {
 
   Map<String, dynamic> toMap() {
     return {
-      'poids':  poids,
-      'prix': prix,
-      'categorie': categorie,
       'couleur': couleur,
-      'date d\'ajout': date_ajout,
+      'categorie': categorie,
+      'date_ajout': dateAjout,
+      'poids': poids,
+      'prix': prix,
     };
   }
 }

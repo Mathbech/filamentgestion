@@ -35,9 +35,7 @@ class Api {
     });
 
     final users = response.body;
-    if (kDebugMode) {
-      print(users);
-    }
+    
 
     if (response.statusCode == 401) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
@@ -68,9 +66,7 @@ class Api {
     });
 
     final users = json.decode(response.body);
-    if (kDebugMode) {
-      print(users);
-    }
+    
 
     if (response.statusCode == 401) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
@@ -93,7 +89,6 @@ class Api {
           });
           if (bobineResponse.statusCode == 200) {
             print(bobineResponse.body);
-            // var bobine = json.decode(bobineResponse.body);
             var bobine = bobineResponse.body;
             bobines.add(bobine.toString());
           }
@@ -101,10 +96,7 @@ class Api {
       }
     }
 
-    if (kDebugMode) {
-      print('La liste des bobines est : $bobines');
-    }
-
+   
     return bobines;
   }
 
@@ -116,10 +108,7 @@ class Api {
     });
 
     final users = json.decode(response.body);
-    if (kDebugMode) {
-      print(users);
-    }
-
+    
     if (response.statusCode == 401) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.remove('token');
@@ -140,16 +129,11 @@ class Api {
             HttpHeaders.authorizationHeader: await getToken(),
           });
           if (bobineResponse.statusCode == 200) {
-            // var bobine = json.decode(bobineResponse.body);
             var vente = bobineResponse.body;
             ventes.add(vente.toString());
           }
         }
       }
-    }
-
-    if (kDebugMode) {
-      print('La liste des ventes est : $ventes');
     }
 
     return ventes;
@@ -163,10 +147,7 @@ class Api {
     });
 
     final users = json.decode(response.body);
-    if (kDebugMode) {
-      print(users);
-    }
-
+    
     if (response.statusCode == 401) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.remove('token');
@@ -194,10 +175,6 @@ class Api {
       }
     }
 
-    if (kDebugMode) {
-      print('La liste des Imprimantes est : $imprimante');
-    }
-
     return imprimante;
   }
 
@@ -208,9 +185,7 @@ class Api {
       HttpHeaders.authorizationHeader: await getToken(),
     });
     final users = json.decode(response.body);
-    if (kDebugMode) {
-      print(users);
-    }
+    
     if (response.statusCode == 401) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.remove('token');
@@ -230,17 +205,40 @@ class Api {
             HttpHeaders.authorizationHeader: await getToken(),
           });
           if (impressionResponse.statusCode == 200) {
-            // var impression = json.decode(impressionResponse.body);
             var impression = impressionResponse.body;
             impressions.add(impression.toString());
           }
         }
       }
     }
-    if (kDebugMode) {
-      print('La liste des impressions est : $impressions');
-    }
+    
     return impressions;
+  }
+
+  // récupérer les couleurs
+  getColors() async {
+    var fullUrl = 'https://std22.beaupeyrat.com/api/couleurs';
+    Response response = await http.get(Uri.parse(fullUrl), headers: {
+      'accept': 'application/json',
+      HttpHeaders.authorizationHeader: await getToken(),
+    });
+
+    final colors = json.decode(response.body);
+    
+    return colors;
+  }
+
+  // récupérer les catégories
+  getCategories() async {
+    var fullUrl = 'https://std22.beaupeyrat.com/api/categories';
+    Response response = await http.get(Uri.parse(fullUrl), headers: {
+      'accept': 'application/json',
+      HttpHeaders.authorizationHeader: await getToken(),
+    });
+
+    final categories = json.decode(response.body);
+
+    return categories;
   }
 
   logout(context) async {
