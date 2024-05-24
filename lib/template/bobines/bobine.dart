@@ -38,20 +38,24 @@ class BobinePageState extends State<BobinePage> {
   }
 
   Future<List<Bobine>> getBobines() async {
-    Api apiInstance = Api();
-    List<dynamic>? tempBobines = await apiInstance.bobine(context);
-    if (tempBobines != null) {
-      bobine = tempBobines
-          .map((bobine) => Bobine.fromMap(jsonDecode(bobine)))
-          .toList();
-      return bobine;
-    } else {
-      if (kDebugMode) {
-        print('La méthode bobine a retourné null');
-      }
-      return [];
+  Api apiInstance = Api();
+  List<dynamic>? tempBobines = await apiInstance.bobine(context);
+  if (tempBobines != null) {
+    bobine = [];
+    for (var tempBobine in tempBobines) {
+      Map<String, dynamic> bobineMap = jsonDecode(tempBobine);
+      String? colorName = await getColorName(bobineMap['couleur']);
+      String? categoryName = await getCategoryName(bobineMap['categorie']); // Suppose you have a similar method for categories
+      bobine.add(Bobine.fromMap(bobineMap, colorName!, categoryName!));
     }
+    return bobine;
+  } else {
+    if (kDebugMode) {
+      print('La méthode bobine a retourné null');
+    }
+    return [];
   }
+}
 
   Future<String?> getColorName(String colorUrl) async {
     final colorsList = await dataLoader.getStoredColors();
@@ -162,6 +166,8 @@ class Bobine {
   final String dateAjout;
   final double poids;
   final double prix;
+  final String colorName; // Added
+  final String categoryName; // Added
 
   Bobine({
     required this.couleur,
@@ -169,22 +175,26 @@ class Bobine {
     required this.dateAjout,
     required this.poids,
     required this.prix,
+    required this.colorName, // Added
+    required this.categoryName, // Added
   });
 
-  factory Bobine.fromMap(Map<String, dynamic> map) {
+  factory Bobine.fromMap(Map<String, dynamic> map, String colorName, String categoryName) { // Added parameters
     return Bobine(
       couleur: map['couleur'],
       categorie: map['categorie'],
       dateAjout: DateFormat('dd/MM/yyyy').format(DateTime.parse(map['date_ajout'])),
       poids: map['poids'],
       prix: map['prix'],
+      colorName: colorName, // Added
+      categoryName: categoryName, // Added
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'couleur': couleur,
-      'categorie': categorie,
+      'couleur': colorName,
+      'categorie': categoryName,
       'date_ajout': dateAjout,
       'poids': poids,
       'prix': prix,
