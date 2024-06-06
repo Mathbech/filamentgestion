@@ -42,7 +42,7 @@ class DashboardPageState extends State<DashboardPage> {
         String username = user['username'];
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('username', username);
-        
+
         int impressionCount = 0;
         if (user['impressions'] is List<dynamic>) {
           impressionCount = user['impressions'].length;
@@ -88,7 +88,9 @@ class DashboardPageState extends State<DashboardPage> {
     return Scaffold(
       appBar: CustomAppBar(title: 'Tableau de bord'),
       drawer: CustomDrawer(),
-      body: _isLoading ? Center(child: CircularProgressIndicator()) : Center(
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -96,40 +98,48 @@ class DashboardPageState extends State<DashboardPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 50.0),
                     child: Card(
                       child: ListTile(
-                        leading: Icon(Icons.shopping_cart),
-                        title: Text('Stocks'),
-                        trailing: Text('$bobines'),
-                      ),
+                          leading: Icon(Icons.shopping_cart),
+                          title: Text('Stocks'),
+                          trailing: Text('$bobines'),
+                          onTap: () {
+                            Navigator.pushNamed(context, '/bobine');
+                          }),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 50.0),
                     child: Card(
                       child: ListTile(
-                        leading: Icon(Icons.print),
-                        title: Text('Impressions'),
-                        trailing: Text('$impression'),
-                      ),
+                          leading: Icon(Icons.print),
+                          title: Text('Impressions'),
+                          trailing: Text('$impression'),
+                          onTap: () {
+                            Navigator.pushNamed(context, '/impressions');
+                          }),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 50.0),
                     child: Card(
                       child: ListTile(
-                        leading: Icon(Icons.print),
-                        title: Text('Imprimantes'),
-                        trailing: Text('$imprimantes'),
-                      ),
+                          leading: Icon(Icons.print),
+                          title: Text('Imprimantes'),
+                          trailing: Text('$imprimantes'),
+                          onTap: () {
+                            Navigator.pushNamed(context, '/imprimante');
+                          }),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 50.0),
                     child: Card(
                       child: ListTile(
-                        leading: Icon(Icons.shopping_cart),
-                        title: Text('Ventes'),
-                        trailing: Text('$ventes'),
-                      ),
+                          leading: Icon(Icons.shopping_cart),
+                          title: Text('Ventes'),
+                          trailing: Text('$ventes'),
+                          onTap: () {
+                            Navigator.pushNamed(context, '/ventes');
+                          }),
                     ),
                   ),
                 ],
