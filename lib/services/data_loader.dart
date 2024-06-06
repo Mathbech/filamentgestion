@@ -1,33 +1,3 @@
-// import 'dart:convert';
-// import 'package:shared_preferences/shared_preferences.dart';
-// import 'api.dart';
-
-// class DataLoader {
-//   Api apiInstance = Api();
-
-//   Future<void> fetchData() async {
-//     var colorData = await apiInstance.getColors();
-//     var categoryData = await apiInstance.getCategories();
-
-//     Map<String, dynamic> couleur = {
-//       'colors': colorData,
-//     };
-//     Map<String, dynamic> categorie = {
-//       'categories': categoryData,
-//     };
-
-//     String couleurs = jsonEncode(couleur);
-//     String categories = jsonEncode(categorie);
-
-//     SharedPreferences localStorage = await SharedPreferences.getInstance();
-//     localStorage.setString('couleur', couleurs);
-//     localStorage.setString('categorie', categories);
-//     print(couleurs);
-//     print(categories);
-//   }
-// }
-
-
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'api.dart';
@@ -38,6 +8,7 @@ class DataLoader {
   Future<void> fetchAndStoreData() async {
     var colorData = await apiInstance.getColors();
     var categoryData = await apiInstance.getCategories();
+    var imprimanteData = await apiInstance.getImprimante();
 
     Map<String, dynamic> couleur = {
       'colors': colorData,
@@ -46,14 +17,18 @@ class DataLoader {
       'categories': categoryData,
     };
 
+    Map<String, dynamic> imprimantes = {
+      'imprimantes': imprimanteData,
+    };
+
     String couleurs = jsonEncode(couleur);
     String categories = jsonEncode(categorie);
 
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     localStorage.setString('couleur', couleurs);
     localStorage.setString('categorie', categories);
-    print(couleurs);
-    print(categories);
+    localStorage.setString('imprimantes', jsonEncode(imprimantes));
+    print(imprimanteData);
   }
 
   Future<List<dynamic>> getStoredColors() async {
@@ -72,6 +47,16 @@ class DataLoader {
     if (categoriesJson != null) {
       Map<String, dynamic> categoriesMap = jsonDecode(categoriesJson);
       return categoriesMap['categories'];
+    }
+    return [];
+  }
+
+  Future<List<dynamic>> getStoredImprimantes() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    String? imprimantesJson = localStorage.getString('imprimantes');
+    if (imprimantesJson != null) {
+      Map<String, dynamic> imprimantesMap = jsonDecode(imprimantesJson);
+      return imprimantesMap['imprimantes'];
     }
     return [];
   }

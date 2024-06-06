@@ -35,7 +35,6 @@ class Api {
     });
 
     final users = response.body;
-    
 
     if (response.statusCode == 401) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
@@ -47,7 +46,7 @@ class Api {
     }
 
     if (users.isNotEmpty) {
-        return users;
+      return users;
     } else {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.remove('token');
@@ -66,7 +65,6 @@ class Api {
     });
 
     final users = json.decode(response.body);
-    
 
     if (response.statusCode == 401) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
@@ -96,7 +94,6 @@ class Api {
       }
     }
 
-   
     return bobines;
   }
 
@@ -108,7 +105,7 @@ class Api {
     });
 
     final users = json.decode(response.body);
-    
+
     if (response.statusCode == 401) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.remove('token');
@@ -147,7 +144,7 @@ class Api {
     });
 
     final users = json.decode(response.body);
-    
+
     if (response.statusCode == 401) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.remove('token');
@@ -170,6 +167,9 @@ class Api {
           if (imprimantesResponse.statusCode == 200) {
             var imprimantes = imprimantesResponse.body;
             imprimante.add(imprimantes.toString());
+            if (kDebugMode) {
+              print(imprimantes);
+            }
           }
         }
       }
@@ -185,7 +185,7 @@ class Api {
       HttpHeaders.authorizationHeader: await getToken(),
     });
     final users = json.decode(response.body);
-    
+
     if (response.statusCode == 401) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.remove('token');
@@ -211,7 +211,7 @@ class Api {
         }
       }
     }
-    
+
     return impressions;
   }
 
@@ -224,7 +224,7 @@ class Api {
     });
 
     final colors = json.decode(response.body);
-    
+
     return colors;
   }
 
@@ -239,6 +239,18 @@ class Api {
     final categories = json.decode(response.body);
 
     return categories;
+  }
+
+  getImprimante() async {
+    var fullUrl = 'https://std22.beaupeyrat.com/api/imprimantes';
+    Response response = await http.get(Uri.parse(fullUrl), headers: {
+      'accept': 'application/json',
+      HttpHeaders.authorizationHeader: await getToken(),
+    });
+
+    final imprimantes = json.decode(response.body);
+
+    return imprimantes;
   }
 
   logout(context) async {

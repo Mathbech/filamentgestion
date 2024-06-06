@@ -112,16 +112,26 @@ class Imprimante {
   final String marque;
   final String type;
   final String? deleted;
+  final String? impression;
 
-  Imprimante({required this.nom, required this.marque, required this.type, this.deleted});
+  Imprimante(
+      {required this.nom,
+      required this.marque,
+      required this.type,
+      this.deleted,
+      required this.impression});
 
   factory Imprimante.fromMap(Map<String, dynamic> map) {
     return Imprimante(
       nom: map['nom_imprimante'],
       marque: map['marque'],
       type: map['type_imprimante'],
-      // deleted: DateFormat('dd/MM/yyyy').format(DateTime.parse(map['deleted']),),
-      deleted: map['deleted'] != null ? DateFormat('dd/MM/yyyy').format(DateTime.parse(map['deleted'])) : null,
+      deleted: map['deleted'] != null
+          ? DateFormat('dd/MM/yyyy').format(DateTime.parse(map['deleted']))
+          : null,
+      impression: map['impressions'] != null
+          ? map['impressions']
+          : 'Aucune impression disponible',
     );
   }
 
@@ -131,6 +141,7 @@ class Imprimante {
       'Marque': marque,
       'Modèle': type,
       'Désactivé le': deleted == null ? 'Imprimante active' : deleted,
+      'Impression': impression == null ? 'Aucune impression disponible' : impression,
     };
   }
 }
